@@ -6,6 +6,7 @@ import { SoupExtractor } from './runners/extractors/soup.extractor';
 import { Summarizer } from './runners/summarizer';
 import { KeywordExtractor } from './runners/extractors/keyword.extractor';
 import { Lighthouse } from './runners/lighthouse';
+import { Observatory } from './runners/observatory';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -57,6 +58,12 @@ export class AppController {
   @Get('lighthouse')
   async lighthouse() {
     const result = new Lighthouse().run('https://shippool.app/');
+    return result;
+  }
+
+  @Get('observatory')
+  async observatory() {
+    const result = new Observatory().run('https://shippool.app/');
     return result;
   }
 }
