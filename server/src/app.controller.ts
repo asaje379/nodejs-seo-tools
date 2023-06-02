@@ -4,7 +4,6 @@ import { JobQueues } from './events/queues';
 import { ClientProxy, EventPattern } from '@nestjs/microservices';
 import { AppEvent } from './events';
 import { SoupExtractorArgs } from './utils/typings';
-import { Helper } from './utils/helper';
 import { FrontendEvent } from './events/frontend.event';
 
 @Controller()

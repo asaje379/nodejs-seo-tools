@@ -3,6 +3,8 @@ import { AppService } from './app.service';
 import { UrlExtractor } from './runners/extractors/url.extractor';
 import { Helper } from './utils/helper';
 import { SoupExtractor } from './runners/extractors/soup.extractor';
+import { Summarizer } from './runners/summarizer';
+import { KeywordExtractor } from './runners/extractors/keyword.extractor';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -36,6 +38,18 @@ export class AppController {
     await soup.loadUrl(Helper.testUrl);
     const result = await soup.extract(['HEADERS', 'IMAGES']);
     console.log(result);
+    return result;
+  }
+
+  @Get('summarize')
+  async summarize() {
+    const result = new Summarizer().run({ text: Helper.testText });
+    return result;
+  }
+
+  @Get('extract-keywords')
+  async extractKeywords() {
+    const result = new KeywordExtractor().extract({ text: Helper.testText });
     return result;
   }
 }
