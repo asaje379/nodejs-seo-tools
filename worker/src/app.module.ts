@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
 import { JobModule } from './job/job.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { JobModule } from './job/job.module';
       },
     }),
     JobModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

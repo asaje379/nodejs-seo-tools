@@ -2,13 +2,33 @@ import { Module } from '@nestjs/common';
 import { JobController } from './job.controller';
 import { BullModule } from '@nestjs/bull';
 import { JobQueues } from './job.queues';
-import { JobProcessor } from './job.processor';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { JobService } from './job.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import {
+  JobExtractorProcessor,
+  JobKeywordProcessor,
+  JobLighthouseProcessor,
+  JobOservatoryProcessor,
+  JobSummarizerProcessor,
+} from './processors';
 
 @Module({
   imports: [
     BullModule.registerQueue({
       name: JobQueues.Extractor,
+    }),
+    BullModule.registerQueue({
+      name: JobQueues.Lighthouse,
+    }),
+    BullModule.registerQueue({
+      name: JobQueues.Summarizer,
+    }),
+    BullModule.registerQueue({
+      name: JobQueues.Observatory,
+    }),
+    BullModule.registerQueue({
+      name: JobQueues.Keyword,
     }),
     ClientsModule.register([
       {
@@ -20,9 +40,17 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
     ]),
+    PrismaModule,
   ],
   controllers: [JobController],
-  providers: [JobProcessor],
+  providers: [
+    JobService,
+    JobExtractorProcessor,
+    JobLighthouseProcessor,
+    JobSummarizerProcessor,
+    JobOservatoryProcessor,
+    JobKeywordProcessor,
+  ],
   exports: [BullModule],
 })
 export class JobModule {}

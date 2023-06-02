@@ -45,7 +45,7 @@ export class AppController {
 
   @Get('summarize')
   async summarize() {
-    const result = new Summarizer().run({ text: Helper.testText });
+    const result = new Summarizer().run(Helper.testText);
     return result;
   }
 
