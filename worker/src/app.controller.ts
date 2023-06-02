@@ -5,6 +5,7 @@ import { Helper } from './utils/helper';
 import { SoupExtractor } from './runners/extractors/soup.extractor';
 import { Summarizer } from './runners/summarizer';
 import { KeywordExtractor } from './runners/extractors/keyword.extractor';
+import { Lighthouse } from './runners/lighthouse';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -50,6 +51,12 @@ export class AppController {
   @Get('extract-keywords')
   async extractKeywords() {
     const result = new KeywordExtractor().extract({ text: Helper.testText });
+    return result;
+  }
+
+  @Get('lighthouse')
+  async lighthouse() {
+    const result = new Lighthouse().run('https://shippool.app/');
     return result;
   }
 }

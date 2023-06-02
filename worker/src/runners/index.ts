@@ -1,11 +1,11 @@
 export * from './extractors';
 
 /*
-- Text summarizer
-- Extractor: headers, images, urls (Beautiful Soap)
+- Text summarizer --DONE--
+- Extractor: headers, images, urls (Beautiful Soap)  --DONE--
 - Sitemap
 - graph_internal_link_interactive
-- yake: Keyword extractor
-- lighthouse
+- yake: Keyword extractor  --DONE--
+- lighthouse --DONE--
 - http observer security
 */
