@@ -37,6 +37,7 @@ export class AppController {
 
   @EventPattern(AppEvent.SOUP_EXTRACTION_FINISHED)
   async runSoupExtractor(data: SoupExtractorArgs) {
+    console.log(data);
     FrontendEvent.emit({
       data: { event: AppEvent.SOUP_EXTRACTION_FINISHED, data },
     });

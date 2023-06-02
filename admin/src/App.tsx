@@ -11,7 +11,6 @@ function App() {
   });
 
   addEventSourceListener('SOUP_EXTRACTION_FINISHED', (data) => {
-    console.log(data, JSON.stringify(data, null, 2));
     setResult(JSON.stringify(data, null, 2));
   });
 
