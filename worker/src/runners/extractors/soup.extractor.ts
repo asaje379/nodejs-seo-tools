@@ -1,22 +1,10 @@
 import JSSoup from 'jssoup';
 import { Http } from '../../utils/http';
-import { Extractor } from '.';
-import { Helper } from 'src/utils/helper';
-
-export type SoupExtractorKind = 'HEADERS' | 'IMAGES' | 'LINKS';
-export type SoupExtractionResult = {
-  images?: {
-    images: string[];
-    summary: {
-      missingTitle: number;
-      missingAlt: number;
-      duplicates: number;
-      total: number;
-    };
-  };
-  links?: Record<string, string[]>;
-  headers?: Record<string, { count: number; values: string[] }>;
-};
+import {
+  Extractor,
+  SoupExtractionResult,
+  SoupExtractorKind,
+} from 'src/utils/typings';
 
 export class SoupExtractor
   implements Extractor<SoupExtractorKind[], SoupExtractionResult>
@@ -24,14 +12,11 @@ export class SoupExtractor
   soup: any;
   baseUrl: string | undefined = undefined;
 
-  constructor(url: string) {
-    this.init(url);
-  }
-
-  async init(url: string) {
-    const urlInfo = await Http.getUrlPageInfo(Helper.testUrl);
+  async loadUrl(url: string) {
+    const urlInfo = await Http.getUrlPageInfo(url);
     this.soup = new JSSoup(urlInfo.content);
     this.baseUrl = Http.getBaseUrl(url);
+    return this;
   }
 
   async extract(kinds: SoupExtractorKind[]) {
