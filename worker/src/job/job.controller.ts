@@ -15,6 +15,7 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
   async runSoupExtractor(data: SoupExtractorArgs) {
+    console.log(data, 'qjhdjqhs');
     await this.extractorQueue.add(AppEvent.RUN_SOUP_EXTRACTOR, data);
   }
 

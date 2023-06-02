@@ -18,6 +18,7 @@ export class JobExtractorProcessor {
 
   @Process(AppEvent.RUN_SOUP_EXTRACTOR)
   async runExtractor({ id, data }: Job) {
+    console.log('hello');
     const task = await this.service.init(id, {
       data,
       type: TaskType.EXTRACTOR,
@@ -27,6 +28,8 @@ export class JobExtractorProcessor {
     const soup = new SoupExtractor();
     await soup.loadUrl(_data.url);
     const result = await soup.extract(_data.options);
+
+    console.log(result, 'result');
 
     this.appClient.emit(AppEvent.EXTRACTION_FINISHED, result);
     await this.service.end(task.id, result);

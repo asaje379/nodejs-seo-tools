@@ -34,11 +34,11 @@ export class AppController {
     return 'Démarrage';
   }
 
-  @EventPattern(AppEvent.SOUP_EXTRACTION_FINISHED)
+  @EventPattern(AppEvent.EXTRACTION_FINISHED)
   async runSoupExtractor(data: SoupExtractorArgs) {
     console.log(data);
     FrontendEvent.emit({
-      data: { event: AppEvent.SOUP_EXTRACTION_FINISHED, data },
+      data: { event: AppEvent.EXTRACTION_FINISHED, data },
     });
   }
 }

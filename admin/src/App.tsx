@@ -10,7 +10,7 @@ function App() {
     images: [],
   });
 
-  addEventSourceListener('SOUP_EXTRACTION_FINISHED', (data) => {
+  addEventSourceListener('EXTRACTION_FINISHED', (data) => {
     setResult(JSON.stringify(data, null, 2));
   });
 
