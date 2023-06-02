@@ -1,0 +1,4 @@
+export enum AppEvent {
+    RUN_SOUP_EXTRACTOR = 'RUN_SOUP_EXTRACTOR',
+    RUN_SUMMARIZER = 'RUN_SUMMARIZER'
+}

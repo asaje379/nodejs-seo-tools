@@ -4,6 +4,9 @@ import { UrlExtractor } from './runners/extractors/url.extractor';
 import { Helper } from './utils/helper';
 import { SoupExtractor } from './runners/extractors/soup.extractor';
 import { Http } from './utils/http';
+import { EventPattern } from '@nestjs/microservices';
+import { AppEvent } from './events';
+import { SoupExtractorArgs } from './runners/typings';
 
 @Controller()
 export class AppController {
@@ -35,18 +38,12 @@ export class AppController {
 
   @Get('test-link')
   async testLink() {
-    const domain = Http.getDomain(Helper.testUrl);
-    const baseURL = Http.getBaseUrl(Helper.testUrl);
-    console.log([domain, baseURL]);
-    const urlInfo = await Http.getUrlPageInfo(Helper.testUrl);
-    if (!urlInfo) throw new InternalServerErrorException();
-    const soup = new SoupExtractor(urlInfo.content);
-    const result = {
-      images: soup.images(),
-      links: await soup.links(Http.getBaseUrl(Helper.testUrl)),
-      header: soup.headers(),
-    };
+    const soup = new SoupExtractor(Helper.testUrl);
+    const result = await soup.extract(['HEADERS', 'IMAGES']);
     console.log(result);
     return result;
   }
+
+  @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
+  runSoupExtractor(data: SoupExtractorArgs) {}
 }
