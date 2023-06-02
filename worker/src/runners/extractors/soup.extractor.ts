@@ -1,11 +1,49 @@
 import JSSoup from 'jssoup';
 import { Http } from '../../utils/http';
+import { Extractor } from '.';
+import { Helper } from 'src/utils/helper';
 
-export class SoupExtractor {
+export type SoupExtractorKind = 'HEADERS' | 'IMAGES' | 'LINKS';
+export type SoupExtractionResult = {
+  images?: {
+    images: string[];
+    summary: {
+      missingTitle: number;
+      missingAlt: number;
+      duplicates: number;
+      total: number;
+    };
+  };
+  links?: Record<string, string[]>;
+  headers?: Record<string, { count: number; values: string[] }>;
+};
+
+export class SoupExtractor
+  implements Extractor<SoupExtractorKind[], SoupExtractionResult>
+{
   soup: any;
+  baseUrl: string | undefined = undefined;
 
-  constructor(html: string) {
-    this.soup = new JSSoup(html);
+  constructor(url: string) {
+    this.init(url);
+  }
+
+  async init(url: string) {
+    const urlInfo = await Http.getUrlPageInfo(Helper.testUrl);
+    this.soup = new JSSoup(urlInfo.content);
+    this.baseUrl = Http.getBaseUrl(url);
+  }
+
+  async extract(kinds: SoupExtractorKind[]) {
+    const result: SoupExtractionResult = {};
+
+    for (const kind of kinds) {
+      if (kind === 'HEADERS') result.headers = this.headers();
+      if (kind === 'IMAGES') result.images = this.images();
+      if (kind === 'LINKS') result.links = await this.links();
+    }
+
+    return result;
   }
 
   images() {
@@ -35,7 +73,7 @@ export class SoupExtractor {
     return result;
   }
 
-  async links(baseURL?: string) {
+  async links() {
     const linksInfo = this.soup.findAll('a') as any[];
 
     const result = {};
@@ -43,7 +81,7 @@ export class SoupExtractor {
     for (const link of linksInfo) {
       let href = link.attrs.href as string;
       if (!href.startsWith('http')) {
-        href = [baseURL, href].join(href.startsWith('/') ? '' : '/');
+        href = [this.baseUrl, href].join(href.startsWith('/') ? '' : '/');
       }
       console.log(link.attrs.href, href);
       const pageInfo = await Http.getUrlPageInfo(href);
