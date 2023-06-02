@@ -7,5 +7,5 @@ export * from './extractors';
 - graph_internal_link_interactive
 - yake: Keyword extractor  --DONE--
 - lighthouse --DONE--
-- http observer security
+- http observatory security --DONE--
 */
