@@ -38,4 +38,9 @@ export class JobController {
   async runObservatory(data: { url: string }) {
     await this.extractorQueue.add(AppEvent.RUN_OBSERVATORY, data);
   }
+
+  @EventPattern(AppEvent.RUN_SITEMAP)
+  async runSiteMap(data: { url: string }) {
+    await this.extractorQueue.add(AppEvent.RUN_SITEMAP, data);
+  }
 }

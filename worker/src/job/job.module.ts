@@ -11,6 +11,7 @@ import {
   JobLighthouseProcessor,
   JobOservatoryProcessor,
   JobSummarizerProcessor,
+  JobSiteMapProcessor,
 } from './processors';
 
 @Module({
@@ -23,6 +24,9 @@ import {
     }),
     BullModule.registerQueue({
       name: JobQueues.Summarizer,
+    }),
+    BullModule.registerQueue({
+      name: JobQueues.Sitemap,
     }),
     BullModule.registerQueue({
       name: JobQueues.Observatory,
@@ -50,6 +54,7 @@ import {
     JobSummarizerProcessor,
     JobOservatoryProcessor,
     JobKeywordProcessor,
+    JobSiteMapProcessor
   ],
   exports: [BullModule],
 })

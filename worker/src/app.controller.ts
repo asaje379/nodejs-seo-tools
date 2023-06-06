@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UrlExtractor } from './runners/extractors/url.extractor';
 import { Helper } from './utils/helper';
@@ -7,6 +7,8 @@ import { Summarizer } from './runners/summarizer';
 import { KeywordExtractor } from './runners/extractors/keyword.extractor';
 import { Lighthouse } from './runners/lighthouse';
 import { Observatory } from './runners/observatory';
+import { Sitemap } from './runners/sitemap';
+import { InternalLink } from './runners/internal-link';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -64,6 +66,18 @@ export class AppController {
   @Get('observatory')
   async observatory() {
     const result = new Observatory().run('https://shippool.app/');
+    return result;
+  }
+
+  @Get('site-map')
+  async sitemap() {
+    const result = new Sitemap().generateSiteMap('https://cxdesigns.io/');
+    return result;
+  }
+
+  @Get('internal-link')
+  async internalLink() {
+    const result = new InternalLink().getInternalLink('https://cxdesigns.io', 3);
     return result;
   }
 }

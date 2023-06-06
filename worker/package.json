@@ -32,6 +32,7 @@
     "brill": "^3.1.0",
     "bull": "^4.10.4",
     "chrome-launcher": "^0.15.2",
+    "crawler": "^1.4.0",
     "ioredis": "^5.3.2",
     "jssoup": "^0.0.15",
     "lighthouse": "^10.2.0",
@@ -39,6 +40,7 @@
     "node-rake-v2": "^0.0.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
+    "sitemap-generator": "^8.5.1",
     "text-summarization": "^1.0.4"
   },
   "devDependencies": {

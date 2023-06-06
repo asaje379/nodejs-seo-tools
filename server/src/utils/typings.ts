@@ -18,6 +18,10 @@ export interface SoupExtractorArgs {
   options: SoupExtractorKind[];
 }
 
+export interface SiteMapExtractorArgs {
+  url: string;
+}
+
 export interface Extractor<T, Q> {
   extract: (args: T) => Q | Promise<Q>;
 }
