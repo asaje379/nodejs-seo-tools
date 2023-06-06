@@ -1,11 +1,10 @@
 export class Helper {
-
   static removeDuplicates(arr: string[]): string[] {
     return arr.filter((value, index, self) => {
       return self.indexOf(value) === index;
     });
   }
-  
+
   static testUrl =
     'https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/';
   static pageContent = `

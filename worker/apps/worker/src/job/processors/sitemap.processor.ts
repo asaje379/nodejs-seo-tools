@@ -1,12 +1,11 @@
 import { Process, Processor } from '@nestjs/bull';
-import { JobQueues } from '../job.queues';
 import { ClientProxy } from '@nestjs/microservices';
 import { JobService } from '../job.service';
 import { Inject } from '@nestjs/common';
-import { AppEvent } from 'src/events';
 import { Job } from 'bull';
 import { TaskType } from '@prisma/client';
-import { Sitemap } from 'src/runners/sitemap';
+import { AppEvent, JobQueues } from '@app/shared';
+import { Sitemap } from '../../runners/sitemap';
 
 @Processor(JobQueues.Sitemap)
 export class JobSiteMapProcessor {

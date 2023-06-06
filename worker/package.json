@@ -31,7 +31,6 @@
     "@nestjs/swagger": "^6.3.0",
     "@prisma/client": "^4.15.0",
     "axios": "^1.4.0",
-    "brill": "^3.1.0",
     "bull": "^4.10.4",
     "chrome-launcher": "^0.15.2",
     "crawler": "^1.4.0",

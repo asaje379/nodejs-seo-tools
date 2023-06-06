@@ -1,5 +1,5 @@
 import * as Crawler from 'crawler';
-import { Helper } from 'src/utils/helper';
+import { Helper } from '../utils/helper';
 
 export class InternalLink {
   formatCrawlerOptions(uriTab: string[], currentIndex: string) {
