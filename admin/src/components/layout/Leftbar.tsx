@@ -17,21 +17,23 @@ export const Leftbar = () => {
       </Sidebar.Logo>
       <Sidebar.Items className="mt-12">
         <Sidebar.ItemGroup>
-          {routes.map((route) => (
-            <NavLink
-              key={route.label}
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive
-                  ? [navlinkDefaultCss, 'bg-gray-200'].join(' ')
-                  : navlinkDefaultCss
-              }
-              to={route.path ?? '/'}>
-              <div className="flex items-center gap-3">
-                <Icon name={route.icon} />
-                <>{route.label}</>
-              </div>
-            </NavLink>
-          ))}
+          {routes
+            .filter((r) => !r.exclude)
+            .map((route) => (
+              <NavLink
+                key={route.label}
+                className={({ isActive }: { isActive: boolean }) =>
+                  isActive
+                    ? [navlinkDefaultCss, 'bg-gray-200'].join(' ')
+                    : navlinkDefaultCss
+                }
+                to={route.path ?? '/'}>
+                <div className="flex items-center gap-3">
+                  <Icon name={route.icon} />
+                  <>{route.label}</>
+                </div>
+              </NavLink>
+            ))}
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

@@ -9,27 +9,12 @@ import { ListResponse } from '../api/requests/typings';
 import { Status } from '../components/core/Status';
 import { CreateLighthouse } from '../components/forms/CreateLighthouse';
 import { TableRow } from '../components/core/table/CustomTable';
-
-const lighthouseTableRows = [
-  { label: 'Website URL', id: 'url' },
-  {
-    label: 'Statut',
-    render: (row: any) => <Status value={row.task?.status} />,
-  },
-  {
-    label: 'Action',
-    render: () => (
-      <Button
-        size="xs"
-        color="light">
-        Result
-      </Button>
-    ),
-  },
-];
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Lighthouse = () => {
   const props = useDatable({});
+  const navigate = useNavigate();
 
   const { data, loading, refresh } = useFetch<ListResponse>(
     () =>
@@ -42,6 +27,31 @@ export const Lighthouse = () => {
       event: AppEvent.LIGHTHOUSE_STATUS_CHANGED,
       deps: [props.page, props.limit, props.search],
     },
+  );
+
+  const lighthouseTableRows = useMemo(
+    () => [
+      { label: 'Website URL', id: 'url' },
+      {
+        label: 'Statut',
+        render: (row: any) => <Status value={row.task?.status} />,
+      },
+      {
+        label: 'Action',
+        render: (row) =>
+          row.task?.status === 'IN_PROGRESS' ? (
+            <></>
+          ) : (
+            <Button
+              onClick={() => navigate(`/lighthouse/${row.id}`)}
+              size="xs"
+              color="light">
+              Result
+            </Button>
+          ),
+      },
+    ],
+    [],
   );
 
   return (

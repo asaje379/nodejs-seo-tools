@@ -6,10 +6,12 @@ import { KeywordFinder } from '../pages/KeywordFinder';
 import { HTMLExtractor } from '../pages/HTMLExtractor';
 import { SitemapExtractor } from '../pages/SitemapExtractor';
 import { SecutityAudit } from '../pages/SecutityAudit';
+import { LighthouseResult } from '../pages/LighthouseResult';
 
 type ExtendedRouteObject = RouteObject & {
   icon?: string;
   label?: string;
+  exclude?: boolean;
 };
 
 export const routes: ExtendedRouteObject[] = [
@@ -19,6 +21,13 @@ export const routes: ExtendedRouteObject[] = [
     element: <Lighthouse />,
     icon: 'insights',
     label: 'Lighthouse Insights',
+  },
+  {
+    path: '/lighthouse/:id',
+    element: <LighthouseResult />,
+    icon: 'insights',
+    label: 'Lighthouse Result',
+    exclude: true,
   },
   {
     path: '/serp-rank',
@@ -59,5 +68,8 @@ const router = createBrowserRouter(
 export default router;
 
 export function getRouteByPath(path: string) {
-  return routes.find((route) => route.path === path);
+  const route = routes.find((route) => route.path === path);
+  if (route) return route;
+  const [, base] = path.split('/');
+  return routes.find((route) => route.path === `/${base}`);
 }

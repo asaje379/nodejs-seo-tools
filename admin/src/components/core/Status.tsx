@@ -18,7 +18,7 @@ const statusValueMapping = {
   FAILED: 'Failed',
 };
 
-export const Status = ({ value }: Props) => {
+export const Status = ({ value = 'IN_PROGRESS' }: Props) => {
   if (!value) return null;
   return (
     <div className="w-fit">

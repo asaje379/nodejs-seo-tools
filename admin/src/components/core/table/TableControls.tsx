@@ -40,7 +40,7 @@ export const TableControls = ({
 
       <div>
         <div className="font-semibold text-sm text-center text-gray-500">
-          {totalCount} items
+          {totalCount} item{totalCount > 1 ? 's' : ''}
         </div>
         <Pagination
           currentPage={page}
