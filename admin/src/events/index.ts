@@ -15,7 +15,9 @@ export function addEventSourceListener<T>(
   event: string,
   cb: (data: T) => void | Promise<void>,
 ) {
-  const eventListener = new EventListener(import.meta.env.VITE_APP_EVENTS_URL);
+  const eventListener = new EventListener(
+    import.meta.env.VITE_APP_API_BASE_URL + '/events',
+  );
   eventListener.eventSource?.addEventListener('message', (e) => {
     const ev = JSON.parse(e.data);
     if (ev.event === event) cb(ev.data);

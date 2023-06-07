@@ -2,6 +2,8 @@ import { PrismaService } from '@app/prisma';
 import { AppEvent, LighthousePayload, MicroServiceName } from '@app/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { Pagination } from '../utils/typings';
+import { paginate } from 'nestjs-prisma-pagination';
 
 @Injectable()
 export class LighthouseService {
@@ -17,8 +19,11 @@ export class LighthouseService {
     this.client.emit(AppEvent.RUN_LIGHTHOUSE, { url, id: lighthouse.id });
   }
 
-  async findAll() {
-    return await this.prisma.ligthouse.findMany({ include: { task: true } });
+  async findAll(args?: Pagination) {
+    const query = paginate(args, { includes: ['task'], search: ['url'] });
+    const values = await this.prisma.ligthouse.findMany(query);
+    const count = await this.prisma.ligthouse.count({ where: query.where });
+    return { values, count };
   }
 
   async findOne(id: string) {

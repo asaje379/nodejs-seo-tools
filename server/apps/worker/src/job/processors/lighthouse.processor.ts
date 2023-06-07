@@ -4,9 +4,8 @@ import { Inject } from '@nestjs/common';
 import { JobService } from '../job.service';
 import { Job } from 'bull';
 import { TaskType } from '@prisma/client';
-import { AppEvent } from '../../events';
 import { Lighthouse } from '../../runners/lighthouse';
-import { JobQueues, LighthouseMsArgs } from '@app/shared';
+import { AppEvent, JobQueues, LighthouseMsArgs } from '@app/shared';
 
 @Processor(JobQueues.Lighthouse)
 export class JobLighthouseProcessor {
@@ -24,10 +23,13 @@ export class JobLighthouseProcessor {
       type: TaskType.LIGHTHOUSE,
     });
     await this.service.setLighthouseTask(task.id, _data.id);
+    this.appClient.emit(AppEvent.LIGHTHOUSE_STATUS_CHANGED, {});
 
-    const result = new Lighthouse().run(_data.url);
+    const lighthouse = new Lighthouse();
+    const result = await lighthouse.run(_data.url);
+    console.log('result', result);
 
     await this.service.end(task.id, result);
-    this.appClient.emit(AppEvent.LIGHTHOUSE_FINISHED, result);
+    this.appClient.emit(AppEvent.LIGHTHOUSE_STATUS_CHANGED, result);
   }
 }

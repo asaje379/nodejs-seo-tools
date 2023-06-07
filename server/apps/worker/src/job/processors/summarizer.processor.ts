@@ -4,9 +4,8 @@ import { JobService } from '../job.service';
 import { Inject } from '@nestjs/common';
 import { Job } from 'bull';
 import { TaskType } from '@prisma/client';
-import { AppEvent } from '../../events';
 import { Summarizer } from '../../runners/summarizer';
-import { JobQueues } from '@app/shared';
+import { AppEvent, JobQueues } from '@app/shared';
 
 @Processor(JobQueues.Summarizer)
 export class JobSummarizerProcessor {
@@ -25,7 +24,7 @@ export class JobSummarizerProcessor {
     const _data = data as { text: string };
     const result = new Summarizer().run(_data.text);
 
-    this.appClient.emit(AppEvent.SUMMARIZER_FINISHED, result);
+    this.appClient.emit(AppEvent.SUMMARIZER_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }
 }

@@ -1,12 +1,30 @@
-import { Button, Card, TextInput } from 'flowbite-react';
+import { Button, Card } from 'flowbite-react';
 import { Layout } from '../components/layout/Layout';
-import { addEventSourceListener } from '../events';
 import { AppEvent } from '../events/enum';
+import { Datatable } from '../components/core/table/Datatable';
+import { useDatable } from '../hooks/useDatatable';
+import { useFetch } from '../hooks/useFetch';
+import lighthouseApi from '../api/requests/lighthouse.api';
+import { ListResponse } from '../api/requests/typings';
+import { Status } from '../components/core/Status';
+import { CreateLighthouse } from '../components/forms/CreateLighthouse';
+import { TableRow } from '../components/core/table/CustomTable';
 
 export const Lighthouse = () => {
-  addEventSourceListener(AppEvent.LIGHTHOUSE_FINISHED, (data) => {
-    console.log(data);
-  });
+  const props = useDatable({});
+
+  const { data, loading, refresh } = useFetch<ListResponse>(
+    () =>
+      lighthouseApi.all({
+        page: props.page,
+        limit: props.limit,
+        search: props.search,
+      }),
+    {
+      event: AppEvent.LIGHTHOUSE_STATUS_CHANGED,
+      deps: [props.page, props.limit, props.search],
+    },
+  );
 
   return (
     <Layout>
@@ -14,11 +32,35 @@ export const Lighthouse = () => {
         <Card>
           <h5 className="text-xl font-semibold">Start a new analysis</h5>
 
-          <div className="mt-2 grid grid-cols-[1fr_auto] gap-3">
-            <TextInput placeholder="Enter a web page URL" />
-            <Button>Analyze</Button>
-          </div>
+          <CreateLighthouse onSubmit={refresh} />
         </Card>
+
+        {!loading && (
+          <div className="my-8">
+            <Datatable
+              cols={[
+                { label: 'Website URL', id: 'url' },
+                {
+                  label: 'Statut',
+                  render: (row) => <Status value={row.task?.status} />,
+                },
+                {
+                  label: 'Action',
+                  render: (row) => (
+                    <Button
+                      size="xs"
+                      color="light">
+                      Result
+                    </Button>
+                  ),
+                },
+              ]}
+              {...props}
+              totalCount={data?.count}
+              rows={(data?.values ?? []) as TableRow[]}
+            />
+          </div>
+        )}
       </div>
     </Layout>
   );

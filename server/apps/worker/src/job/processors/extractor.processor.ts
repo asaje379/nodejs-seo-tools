@@ -4,10 +4,9 @@ import { ClientProxy } from '@nestjs/microservices';
 import { JobService } from '../job.service';
 import { Job } from 'bull';
 import { TaskType } from '@prisma/client';
-import { AppEvent } from '../../events';
 import { SoupExtractorArgs } from '../../utils/typings';
 import { SoupExtractor } from '../../runners';
-import { JobQueues } from '@app/shared';
+import { AppEvent, JobQueues } from '@app/shared';
 
 @Processor(JobQueues.Extractor)
 export class JobExtractorProcessor {
@@ -30,7 +29,7 @@ export class JobExtractorProcessor {
 
     console.log(result, 'result');
 
-    this.appClient.emit(AppEvent.EXTRACTION_FINISHED, result);
+    this.appClient.emit(AppEvent.EXTRACTION_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }
 }

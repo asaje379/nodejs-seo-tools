@@ -4,12 +4,11 @@ import { ClientProxy } from '@nestjs/microservices';
 import { JobService } from '../job.service';
 import { Job } from 'bull';
 import { TaskType } from '@prisma/client';
-import { AppEvent } from '../../events';
 import {
   KeywordExtractor,
   KeywordExtractorArgs,
 } from '../../runners/extractors/keyword.extractor';
-import { JobQueues } from '@app/shared';
+import { AppEvent, JobQueues } from '@app/shared';
 
 @Processor(JobQueues.Keyword)
 export class JobKeywordProcessor {
@@ -31,7 +30,7 @@ export class JobKeywordProcessor {
       ...(_data.stopwords && { stopwords: _data.stopwords }),
     });
 
-    this.appClient.emit(AppEvent.KEYWORD_FINISHED, result);
+    this.appClient.emit(AppEvent.KEYWORD_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }
 }

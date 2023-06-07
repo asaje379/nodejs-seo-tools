@@ -2,10 +2,9 @@ import { InjectQueue } from '@nestjs/bull';
 import { Controller } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { Queue } from 'bull';
-import { AppEvent } from '../events';
 import { SoupExtractorArgs } from '../utils/typings';
 import { KeywordExtractorArgs } from '../runners/extractors/keyword.extractor';
-import { JobQueues } from '@app/shared';
+import { AppEvent, JobQueues } from '@app/shared';
 
 @Controller('job')
 export class JobController {

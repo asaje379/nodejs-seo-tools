@@ -24,7 +24,7 @@ export class JobSiteMapProcessor {
     const _data = data as { text: string };
     const result = new Sitemap().generateSiteMap(_data.text);
 
-    this.appClient.emit(AppEvent.SITEMAP_FINISHED, result);
+    this.appClient.emit(AppEvent.SITEMAP_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }
 }

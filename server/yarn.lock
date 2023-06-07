@@ -5174,6 +5174,11 @@ nested-error-stacks@^2.0.0:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.1.tgz#26c8a3cee6cc05fbcf1e333cd2fc3e003326c0b5"
   integrity sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==
 
+nestjs-prisma-pagination@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/nestjs-prisma-pagination/-/nestjs-prisma-pagination-1.0.19.tgz#cbad1db9e972f1afd79d16cd319af2912ccb2a0a"
+  integrity sha512-Gvs41Y1xeBUzQxS5W62vmrIDQD8I+xkShL4DALCaIy1pdktkZvGF2TOjQebXMSB3LjXXgqfjVftUDrHMj+Bfdg==
+
 netmask@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-2.0.2.tgz#8b01a07644065d536383835823bc52004ebac5e7"

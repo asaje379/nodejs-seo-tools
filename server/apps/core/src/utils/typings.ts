@@ -1,27 +1,10 @@
-export type SoupExtractorKind = 'HEADERS' | 'IMAGES' | 'LINKS';
-export type SoupExtractionResult = {
-  images?: {
-    images: string[];
-    summary: {
-      missingTitle: number;
-      missingAlt: number;
-      duplicates: number;
-      total: number;
-    };
-  };
-  links?: Record<string, string[]>;
-  headers?: Record<string, { count: number; values: string[] }>;
-};
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { PaginationArgs } from 'nestjs-prisma-pagination';
 
-export interface SoupExtractorArgs {
-  url: string;
-  options: SoupExtractorKind[];
-}
-
-export interface SiteMapExtractorArgs {
-  url: string;
-}
-
-export interface Extractor<T, Q> {
-  extract: (args: T) => Q | Promise<Q>;
+export class Pagination implements PaginationArgs {
+  @ApiPropertyOptional() page?: number;
+  @ApiPropertyOptional() limit?: number;
+  @ApiPropertyOptional() search?: string;
+  @ApiPropertyOptional() from?: string;
+  @ApiPropertyOptional() to?: string;
 }
