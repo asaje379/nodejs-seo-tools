@@ -4,5 +4,5 @@ import { getRouteByPath } from '../router/router';
 export function usePageLabel() {
   const { pathname } = useLocation();
   const route = getRouteByPath(pathname);
-  return route?.label ?? '';
+  return { label: route?.label ?? '', exclude: route?.exclude };
 }

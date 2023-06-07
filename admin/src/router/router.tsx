@@ -68,8 +68,9 @@ const router = createBrowserRouter(
 export default router;
 
 export function getRouteByPath(path: string) {
-  const route = routes.find((route) => route.path === path);
+  let route = routes.find((route) => route.path === path);
   if (route) return route;
   const [, base] = path.split('/');
-  return routes.find((route) => route.path === `/${base}`);
+  route = routes.find((route) => route.path === `/${base}`);
+  return { ...route, exclude: true };
 }

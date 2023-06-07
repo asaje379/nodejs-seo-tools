@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
 import lighthouseApi from '../api/requests/lighthouse.api';
-import { BackTitle } from '../components/core/BackTitle';
 import { Layout } from '../components/layout/Layout';
 import { useFetch } from '../hooks/useFetch';
 
@@ -10,7 +9,7 @@ export const LighthouseResult = () => {
 
   return (
     <Layout>
-      <BackTitle>LighthouseResult</BackTitle>
+      <div className="font-semibold">LighthouseResult</div>
       {!loading && <div className="mt-6">{JSON.stringify(data)}</div>}
     </Layout>
   );

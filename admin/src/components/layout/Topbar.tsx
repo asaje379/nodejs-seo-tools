@@ -1,12 +1,17 @@
 import { Button } from 'flowbite-react';
 import { usePageLabel } from '../../hooks/usePageLabel';
+import { BackTitle } from '../core/BackTitle';
 
 export const Topbar = () => {
-  const pageLabel = usePageLabel();
+  const info = usePageLabel();
+
+  console.log(info);
 
   return (
     <div className="flex justify-between items-center px-6 py-4">
-      <div className="text-2xl font-semibold">{pageLabel}</div>
+      <div className="text-2xl font-semibold">
+        {info.exclude ? <BackTitle>{info.label}</BackTitle> : info.label}
+      </div>
       <div className="flex items-center gap-6">
         <div>Welcome John!</div>
         <Button
