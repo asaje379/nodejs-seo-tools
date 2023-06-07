@@ -10,6 +10,24 @@ import { Status } from '../components/core/Status';
 import { CreateLighthouse } from '../components/forms/CreateLighthouse';
 import { TableRow } from '../components/core/table/CustomTable';
 
+const lighthouseTableRows = [
+  { label: 'Website URL', id: 'url' },
+  {
+    label: 'Statut',
+    render: (row: any) => <Status value={row.task?.status} />,
+  },
+  {
+    label: 'Action',
+    render: () => (
+      <Button
+        size="xs"
+        color="light">
+        Result
+      </Button>
+    ),
+  },
+];
+
 export const Lighthouse = () => {
   const props = useDatable({});
 
@@ -38,23 +56,7 @@ export const Lighthouse = () => {
         {!loading && (
           <div className="my-8">
             <Datatable
-              cols={[
-                { label: 'Website URL', id: 'url' },
-                {
-                  label: 'Statut',
-                  render: (row) => <Status value={row.task?.status} />,
-                },
-                {
-                  label: 'Action',
-                  render: (row) => (
-                    <Button
-                      size="xs"
-                      color="light">
-                      Result
-                    </Button>
-                  ),
-                },
-              ]}
+              cols={lighthouseTableRows}
               {...props}
               totalCount={data?.count}
               rows={(data?.values ?? []) as TableRow[]}
