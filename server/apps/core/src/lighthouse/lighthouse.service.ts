@@ -4,6 +4,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Pagination } from '../utils/typings';
 import { paginate } from 'nestjs-prisma-pagination';
+import { Helper } from '../utils/helper';
+import { Ligthouse, Task } from '@prisma/client';
 
 @Injectable()
 export class LighthouseService {
@@ -23,7 +25,12 @@ export class LighthouseService {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
     const values = await this.prisma.ligthouse.findMany(query);
     const count = await this.prisma.ligthouse.count({ where: query.where });
-    return { values, count };
+    return {
+      values: Helper.cleanTaskInListResponse(
+        values as (Ligthouse & { task: Task })[],
+      ),
+      count,
+    };
   }
 
   async findOne(id: string) {

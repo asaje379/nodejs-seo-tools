@@ -19,14 +19,16 @@ export function useFetch<T>(
     setCount((c) => c + 1);
   };
 
-  if (event) {
-    addEventSourceListener(event, async () => {
-      setLoading(true);
-      const response = await cb();
-      setData(response as T);
-      setLoading(false);
-    });
-  }
+  useEffect(() => {
+    if (event) {
+      addEventSourceListener(event, async () => {
+        setLoading(true);
+        const response = await cb();
+        setData(response as T);
+        setLoading(false);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const fn = async () => {

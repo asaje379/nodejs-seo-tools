@@ -16,7 +16,7 @@ export const Lighthouse = () => {
   const props = useDatable({});
   const navigate = useNavigate();
 
-  const { data, loading, refresh } = useFetch<ListResponse>(
+  const { data, refresh } = useFetch<ListResponse>(
     () =>
       lighthouseApi.all({
         page: props.page,
@@ -34,12 +34,12 @@ export const Lighthouse = () => {
       { label: 'Website URL', id: 'url' },
       {
         label: 'Statut',
-        render: (row: any) => <Status value={row.task?.status} />,
+        render: (row: any) => <Status value={row.taskStatus} />,
       },
       {
         label: 'Action',
         render: (row) =>
-          row.task?.status === 'IN_PROGRESS' ? (
+          !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
             <></>
           ) : (
             <Button
@@ -63,16 +63,14 @@ export const Lighthouse = () => {
           <CreateLighthouse onSubmit={refresh} />
         </Card>
 
-        {!loading && (
-          <div className="my-8">
-            <Datatable
-              cols={lighthouseTableRows}
-              {...props}
-              totalCount={data?.count}
-              rows={(data?.values ?? []) as TableRow[]}
-            />
-          </div>
-        )}
+        <div className="my-8">
+          <Datatable
+            cols={lighthouseTableRows}
+            {...props}
+            totalCount={data?.count ?? 0}
+            rows={(data?.values ?? []) as TableRow[]}
+          />
+        </div>
       </div>
     </Layout>
   );
