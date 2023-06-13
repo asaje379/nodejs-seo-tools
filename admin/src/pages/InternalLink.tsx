@@ -4,13 +4,14 @@ import { AppEvent } from '../events/enum';
 import { Datatable } from '../components/core/table/Datatable';
 import { useDatable } from '../hooks/useDatatable';
 import { useFetch } from '../hooks/useFetch';
-import lighthouseApi from '../api/requests/lighthouse.api';
 import { ListResponse } from '../api/requests/typings';
 import { Status } from '../components/core/Status';
-import { CreateLighthouse } from '../components/forms/CreateLighthouse';
 import { TableRow } from '../components/core/table/CustomTable';
+import internalLinkApi from '../api/requests/internallink.api';
+import { CreateSitemap } from '../components/forms/CreateSitemap';
+import { CreateInternalLink } from '../components/forms/CreateInternalLink';
 
-const lighthouseTableRows = [
+const internalLinkTableRows = [
   { label: 'Website URL', id: 'url' },
   {
     label: 'Statut',
@@ -29,18 +30,18 @@ const lighthouseTableRows = [
 ];
 
 
-export const Lighthouse = () => {
+export const InternalLinkExtractor = () => {
   const props = useDatable({});
 
   const { data, loading, refresh } = useFetch<ListResponse>(
     () =>
-      lighthouseApi.all({
+     internalLinkApi.all({
         page: props.page,
         limit: props.limit,
         search: props.search,
       }),
     {
-      event: AppEvent.LIGHTHOUSE_STATUS_CHANGED,
+      event: AppEvent.INTERNAL_LINK_STATUS_CHANGED,
       deps: [props.page, props.limit, props.search],
     },
   );
@@ -50,14 +51,13 @@ export const Lighthouse = () => {
       <div className="mt-6">
         <Card>
           <h5 className="text-xl font-semibold">Start a new analysis</h5>
-
-          <CreateLighthouse onSubmit={refresh} />
+          <CreateInternalLink onSubmit={refresh} />
         </Card>
 
         {!loading && (
           <div className="my-8">
             <Datatable
-              cols={lighthouseTableRows}
+              cols={internalLinkTableRows}
               {...props}
               totalCount={data?.count}
               rows={(data?.values ?? []) as TableRow[]}

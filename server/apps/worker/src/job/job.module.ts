@@ -10,6 +10,7 @@ import {
   JobOservatoryProcessor,
   JobSummarizerProcessor,
   JobSiteMapProcessor,
+  JobInternalLinkProcessor,
 } from './processors';
 import { PrismaModule } from '@app/prisma';
 import { JobQueues, MicroServiceName } from '@app/shared';
@@ -27,6 +28,9 @@ import { JobQueues, MicroServiceName } from '@app/shared';
     }),
     BullModule.registerQueue({
       name: JobQueues.Sitemap,
+    }),
+    BullModule.registerQueue({
+      name: JobQueues.InternalLink,
     }),
     BullModule.registerQueue({
       name: JobQueues.Observatory,
@@ -55,6 +59,7 @@ import { JobQueues, MicroServiceName } from '@app/shared';
     JobOservatoryProcessor,
     JobKeywordProcessor,
     JobSiteMapProcessor,
+    JobInternalLinkProcessor,
   ],
   exports: [BullModule],
 })

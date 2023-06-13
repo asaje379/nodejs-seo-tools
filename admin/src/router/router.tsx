@@ -6,6 +6,7 @@ import { KeywordFinder } from '../pages/KeywordFinder';
 import { HTMLExtractor } from '../pages/HTMLExtractor';
 import { SitemapExtractor } from '../pages/SitemapExtractor';
 import { SecutityAudit } from '../pages/SecutityAudit';
+import { InternalLinkExtractor } from '../pages/InternalLink';
 
 type ExtendedRouteObject = RouteObject & {
   icon?: string;
@@ -42,6 +43,12 @@ export const routes: ExtendedRouteObject[] = [
     path: '/sitemap-extractor',
     element: <SitemapExtractor />,
     label: 'Sitemap Extractor',
+    icon: 'travel_explore',
+  },
+  {
+    path: '/internal-link',
+    element: <InternalLinkExtractor />,
+    label: 'Internal Link',
     icon: 'travel_explore',
   },
   {

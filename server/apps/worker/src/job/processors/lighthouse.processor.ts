@@ -22,6 +22,8 @@ export class JobLighthouseProcessor {
       data: { url: _data.url },
       type: TaskType.LIGHTHOUSE,
     });
+    console.log(task);
+    
     await this.service.setLighthouseTask(task.id, _data.id);
     this.appClient.emit(AppEvent.LIGHTHOUSE_STATUS_CHANGED, {});
 
