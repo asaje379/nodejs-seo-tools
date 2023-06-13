@@ -19,6 +19,8 @@ export function addEventSourceListener<T>(
     import.meta.env.VITE_APP_API_BASE_URL + '/events',
   );
   eventListener.eventSource?.addEventListener('message', (e) => {
+    console.log(e);
+    
     const ev = JSON.parse(e.data);
     if (ev.event === event) cb(ev.data);
   });

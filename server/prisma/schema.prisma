@@ -38,9 +38,29 @@ model Task {
   endedAt   DateTime?
   enabled   Boolean     @default(true)
   Ligthouse Ligthouse[]
+  Sitemap Sitemap[]
+  InternalLink InternalLink[]
 }
 
 model Ligthouse {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  enabled   Boolean  @default(true)
+  url       String
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    String?
+}
+
+model Sitemap {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  enabled   Boolean  @default(true)
+  url       String
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    String?
+}
+
+model InternalLink {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   enabled   Boolean  @default(true)

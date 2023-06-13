@@ -36,4 +36,18 @@ export class JobService {
       data: { taskId },
     });
   }
+
+  async setSitemapTask(taskId: string, sitemapId: string) {
+    await this.prisma.sitemap.update({
+      where: { id: sitemapId },
+      data: { taskId },
+    });
+  }
+
+  async setInternalLinkTask(taskId: string, sitemapId: string) {
+    await this.prisma.internalLink.update({
+      where: { id: sitemapId },
+      data: { taskId },
+    });
+  }
 }

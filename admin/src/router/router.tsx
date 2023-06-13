@@ -7,6 +7,7 @@ import { HTMLExtractor } from '../pages/HTMLExtractor';
 import { SitemapExtractor } from '../pages/SitemapExtractor';
 import { SecutityAudit } from '../pages/SecutityAudit';
 import { LighthouseResult } from '../pages/LighthouseResult';
+import { InternalLinkExtractor } from '../pages/InternalLink';
 
 type ExtendedRouteObject = RouteObject & {
   icon?: string;
@@ -52,6 +53,12 @@ export const routes: ExtendedRouteObject[] = [
     element: <SitemapExtractor />,
     label: 'Sitemap Extractor',
     icon: 'travel_explore',
+  },
+  {
+    path: '/internal-link',
+    element: <InternalLinkExtractor />,
+    label: 'Internal Link',
+    icon: 'share',
   },
   {
     path: '/security-audit',

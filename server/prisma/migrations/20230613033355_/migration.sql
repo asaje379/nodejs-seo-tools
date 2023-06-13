@@ -31,5 +31,33 @@ CREATE TABLE "Ligthouse" (
     CONSTRAINT "Ligthouse_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Sitemap" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "url" TEXT NOT NULL,
+    "taskId" TEXT,
+
+    CONSTRAINT "Sitemap_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "InternalLink" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "url" TEXT NOT NULL,
+    "taskId" TEXT,
+
+    CONSTRAINT "InternalLink_pkey" PRIMARY KEY ("id")
+);
+
 -- AddForeignKey
 ALTER TABLE "Ligthouse" ADD CONSTRAINT "Ligthouse_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Sitemap" ADD CONSTRAINT "Sitemap_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "InternalLink" ADD CONSTRAINT "InternalLink_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;

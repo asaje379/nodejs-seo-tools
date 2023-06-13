@@ -12,6 +12,7 @@ import { TableRow } from '../components/core/table/CustomTable';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 export const Lighthouse = () => {
   const props = useDatable({});
   const navigate = useNavigate();

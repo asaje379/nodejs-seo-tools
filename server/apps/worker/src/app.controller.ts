@@ -8,6 +8,8 @@ import { KeywordExtractor } from './runners/extractors/keyword.extractor';
 import { Lighthouse } from './runners/lighthouse';
 import { Observatory } from './runners/observatory';
 import { SerpScore } from './runners/serp';
+import { Sitemap } from './runners/sitemap';
+import { InternalLink } from './runners/internal-link';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -40,7 +42,6 @@ export class AppController {
     const soup = new SoupExtractor();
     await soup.loadUrl(Helper.testUrl);
     const result = await soup.extract(['HEADERS', 'IMAGES']);
-    console.log(result);
     return result;
   }
 
@@ -65,6 +66,18 @@ export class AppController {
   @Get('observatory')
   async observatory() {
     const result = new Observatory().run('https://shippool.app/');
+    return result;
+  }
+
+  @Get('sitemap')
+  async sitemap() {
+    const result = new Sitemap().generateSiteMap('https://shippool.app/');
+    return result;
+  }
+
+  @Get('internal-link')
+  async internalLink() {
+    const result = new InternalLink().getInternalLink('https://shippool.app/', 3);
     return result;
   }
 

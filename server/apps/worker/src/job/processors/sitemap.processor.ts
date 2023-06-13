@@ -4,7 +4,7 @@ import { JobService } from '../job.service';
 import { Inject } from '@nestjs/common';
 import { Job } from 'bull';
 import { TaskType } from '@prisma/client';
-import { AppEvent, JobQueues } from '@app/shared';
+import { AppEvent, JobQueues, SiteMapMsArgs } from '@app/shared';
 import { Sitemap } from '../../runners/sitemap';
 
 @Processor(JobQueues.Sitemap)
@@ -16,14 +16,14 @@ export class JobSiteMapProcessor {
 
   @Process(AppEvent.RUN_SITEMAP)
   async runSiteMap({ id, data }: Job) {
+    const _data = data as SiteMapMsArgs;
     const task = await this.service.init(id, {
-      data,
+      data: { url: _data.url },
       type: TaskType.SITEMAP,
     });
-
-    const _data = data as { text: string };
-    const result = new Sitemap().generateSiteMap(_data.text);
-
+    await this.service.setSitemapTask(task.id, _data.id);
+    this.appClient.emit(AppEvent.SITEMAP_STATUS_CHANGED, {});
+    const result = await new Sitemap().generateSiteMap(_data.url);
     this.appClient.emit(AppEvent.SITEMAP_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }

@@ -10,6 +10,8 @@ import { AppEvent, JobQueues } from '@app/shared';
 export class JobController {
   constructor(
     @InjectQueue(JobQueues.Extractor) private extractorQueue: Queue,
+    @InjectQueue(JobQueues.Sitemap) private sitemapQueue: Queue,
+    @InjectQueue(JobQueues.InternalLink) private internalLinkQueue: Queue,
     @InjectQueue(JobQueues.Keyword) private keywordQueue: Queue,
     @InjectQueue(JobQueues.Lighthouse) private lighthouseQueue: Queue,
     @InjectQueue(JobQueues.Summarizer) private summarizerQueue: Queue,
@@ -18,7 +20,6 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
   async runSoupExtractor(data: SoupExtractorArgs) {
-    console.log(data, 'qjhdjqhs');
     await this.extractorQueue.add(AppEvent.RUN_SOUP_EXTRACTOR, data);
   }
 
@@ -29,7 +30,6 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_LIGHTHOUSE)
   async runLighthouse(data: { url: string; id: string }) {
-    console.log('[Lighthouse processsor running]', data);
     await this.lighthouseQueue.add(AppEvent.RUN_LIGHTHOUSE, data);
   }
 
@@ -45,6 +45,12 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SITEMAP)
   async runSiteMap(data: { url: string }) {
-    await this.extractorQueue.add(AppEvent.RUN_SITEMAP, data);
+    console.log('------------ run site map extractorQueue ------------------');
+    await this.sitemapQueue.add(AppEvent.RUN_SITEMAP, data);
+  }
+
+  @EventPattern(AppEvent.RUN_INTERNAL_LINKS)
+  async runInternalLink(data: { url: string, maxDepth: number }) {
+    await this.internalLinkQueue.add(AppEvent.RUN_INTERNAL_LINKS, data);
   }
 }

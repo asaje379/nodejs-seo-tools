@@ -19,6 +19,8 @@ export const Datatable = ({
   onPageChanged,
   onPageSizeChanged,
 }: DataTableProps) => {
+  console.log(rows);
+  
   return (
     <div>
       <TableControls
