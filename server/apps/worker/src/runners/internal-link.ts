@@ -1,7 +1,15 @@
 import * as Crawler from 'crawler';
 import { Helper } from '../utils/helper';
+import { TreeNode } from '../utils/typings';
 
 export class InternalLink {
+
+  tree = {
+    name: 'https://cxdesigns.io/',
+    children: []
+  };
+  doneUrl: string[] = [];
+
   formatCrawlerOptions(uriTab: string[], currentIndex: string) {
     return uriTab.map((uri: string) => {
       return {
@@ -68,14 +76,57 @@ export class InternalLink {
       });
   
       // Commence le crawling en ajoutant l'URL de départ à la file d'attente
-      crawler.queue({ uri: uri, depth: 1 });
-  
+      try {
+        crawler.queue({ uri: uri, depth: 1 });
+      } catch (error) {
+        reject(error)
+      }
       // Écoute l'événement "drain" pour savoir quand le crawling est terminé
       crawler.on('drain', () => {
-        console.log('Crawling terminé');
-        console.log('Liens internes du site :', internalLinks);
-        resolve(internalLinks);
+        this.tree.name = uri;
+        const tree = this.listToTree(internalLinks, uri);
+        console.log(tree);
+        // resolve(internalLinks);
+        resolve(tree);
       });
     })
+  }
+
+  listToTree(nodes: { url: string, links: string[] }[], root: string, tree: TreeNode = this.tree) {
+    const _branch = nodes.find((n: { url: string }) => n.url === root);
+    if (_branch) {
+      let branch = [];
+      if (this.doneUrl.length > 0) {
+        branch = this.removeNodeBranch(nodes, _branch);
+      } else {
+        branch =_branch.links;
+      }
+      tree.children = branch.map((uri: string) => {
+        return {
+          name: uri,
+          children: []
+        };
+      });
+      for (let i = 0; i < tree.children.length; i++) {
+        const child = tree.children[i];
+        if (!this.doneUrl.includes(child.name)) {
+          this.doneUrl.push(child.name);
+          this.listToTree(nodes, child.name, child);
+        }
+      }
+    } else {
+      console.log("-------- no branch -----------");
+    }
+    return tree;
+  }
+
+  removeNodeBranch(nodes: { url: string, links: string[] }[] , _branch: {url: string, links: string[]}) {
+    const res = [];
+    _branch.links.forEach(el => {
+      if (!nodes.map(el => el.url).includes(el)) {
+        res.push(el)
+      }
+    });
+    return res;
   }
 }

@@ -14,8 +14,6 @@ export class SitemapController {
 
   @Post('run')
   async run(@Body() data: SiteMapPayload) {
-    console.log('-------- start run sitemap ------------');
-    
     return await this.service.run(data);
   }
 

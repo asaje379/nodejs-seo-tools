@@ -4,9 +4,7 @@ import * as xml2js from 'xml2js';
 import * as path from 'path';
 
 export class Sitemap {
-  constructor() {
-    console.log(__dirname);
-  }
+  constructor() { }
   generateSiteMap(url: string) {
     return new Promise((resolve, reject) => {
       try {
@@ -22,8 +20,6 @@ export class Sitemap {
             parser.parseString(data, function (err, result) {
                 console.dir(result);
                 resolve(result?.urlset?.url);
-                
-                console.log('Done');
             });
           });
         });

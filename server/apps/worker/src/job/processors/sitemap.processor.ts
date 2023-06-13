@@ -16,26 +16,14 @@ export class JobSiteMapProcessor {
 
   @Process(AppEvent.RUN_SITEMAP)
   async runSiteMap({ id, data }: Job) {
-    console.log('-------- run Job -------------');
-    console.log('[Task started:Sitemap]', id, data);
     const _data = data as SiteMapMsArgs;
     const task = await this.service.init(id, {
       data: { url: _data.url },
       type: TaskType.SITEMAP,
     });
-
-    
-    console.log(task);
-
     await this.service.setSitemapTask(task.id, _data.id);
     this.appClient.emit(AppEvent.SITEMAP_STATUS_CHANGED, {});
-    
     const result = await new Sitemap().generateSiteMap(_data.url);
-    console.log('--------- avant emission evenement ------------');
-    console.log(result);
-    console.log(task);
-    
-    
     this.appClient.emit(AppEvent.SITEMAP_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }

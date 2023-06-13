@@ -20,7 +20,6 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
   async runSoupExtractor(data: SoupExtractorArgs) {
-    console.log(data, 'qjhdjqhs');
     await this.extractorQueue.add(AppEvent.RUN_SOUP_EXTRACTOR, data);
   }
 
@@ -31,7 +30,6 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_LIGHTHOUSE)
   async runLighthouse(data: { url: string; id: string }) {
-    console.log('[Lighthouse processsor running]', data);
     await this.lighthouseQueue.add(AppEvent.RUN_LIGHTHOUSE, data);
   }
 

@@ -6,10 +6,11 @@ import { InternalLinkService } from './internal-link.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Pagination } from '../utils/typings';
 
+
 @Controller('internal-link')
 @ApiTags('InternalLink')
 export class InternalLinkController {
-  constructor(private service: InternalLinkService) {}
+  constructor(private service: InternalLinkService) { }
 
   @Post('run')
   async run(@Body() data: InternalLinkPayload) {

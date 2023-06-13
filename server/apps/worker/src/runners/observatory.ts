@@ -6,7 +6,6 @@ export class Observatory {
     const result = await executeCommand(
       `npx observatory ${Http.getDomain(url)}`,
     );
-    console.log(result);
     return result;
   }
 }

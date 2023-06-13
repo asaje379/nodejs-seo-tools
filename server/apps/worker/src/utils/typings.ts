@@ -21,3 +21,8 @@ export interface SoupExtractorArgs {
 export interface Extractor<T, Q> {
   extract: (args: T) => Q | Promise<Q>;
 }
+
+export interface TreeNode {
+  name: string;
+  children?: TreeNode[];
+}

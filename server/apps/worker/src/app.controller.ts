@@ -42,7 +42,6 @@ export class AppController {
     const soup = new SoupExtractor();
     await soup.loadUrl(Helper.testUrl);
     const result = await soup.extract(['HEADERS', 'IMAGES']);
-    console.log(result);
     return result;
   }
 

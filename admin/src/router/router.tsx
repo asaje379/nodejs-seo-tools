@@ -49,7 +49,7 @@ export const routes: ExtendedRouteObject[] = [
     path: '/internal-link',
     element: <InternalLinkExtractor />,
     label: 'Internal Link',
-    icon: 'travel_explore',
+    icon: 'share',
   },
   {
     path: '/security-audit',
