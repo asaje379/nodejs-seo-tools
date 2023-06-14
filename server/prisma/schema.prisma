@@ -27,20 +27,42 @@ enum TaskType {
 }
 
 model Task {
-  id        String      @id @default(uuid())
-  jobId     Int?
-  data      Json?
-  result    Json?
-  type      TaskType
-  status    TaskStatus  @default(IN_PROGRESS)
-  createdAt DateTime    @default(now())
-  startedAt DateTime    @default(now())
-  endedAt   DateTime?
-  enabled   Boolean     @default(true)
-  Ligthouse Ligthouse[]
+  id          String        @id @default(uuid())
+  jobId       Int?
+  data        Json?
+  result      Json?
+  type        TaskType
+  status      TaskStatus    @default(IN_PROGRESS)
+  createdAt   DateTime      @default(now())
+  startedAt   DateTime      @default(now())
+  endedAt     DateTime?
+  enabled     Boolean       @default(true)
+  Ligthouse   Ligthouse[]
+  Summarizer  Summarizer[]
+  Observatory Observatory[]
 }
 
 model Ligthouse {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  enabled   Boolean  @default(true)
+  url       String
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    String?
+}
+
+model Summarizer {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  enabled   Boolean  @default(true)
+
+  url    String?
+  text   String?
+  task   Task?   @relation(fields: [taskId], references: [id])
+  taskId String?
+}
+
+model Observatory {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   enabled   Boolean  @default(true)

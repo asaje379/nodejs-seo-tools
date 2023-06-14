@@ -1,25 +1,23 @@
-import { AppEvent, UrlPayload } from '@app/shared';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { ObservatoryService } from './observatory.service';
+import { AppEvent, UrlPayload } from '@app/shared';
 import { EventPattern } from '@nestjs/microservices';
 import { FrontendEvent } from '../events';
-import { LighthouseService } from './lighthouse.service';
-import { ApiTags } from '@nestjs/swagger';
 import { Pagination } from '../utils/typings';
 
-@Controller('lighthouse')
-@ApiTags('Lighthouse')
-export class LighthouseController {
-  constructor(private service: LighthouseService) {}
+@Controller('observatory')
+export class ObservatoryController {
+  constructor(private service: ObservatoryService) {}
 
   @Post('run')
   async run(@Body() data: UrlPayload) {
     return await this.service.run(data);
   }
 
-  @EventPattern(AppEvent.LIGHTHOUSE_STATUS_CHANGED)
+  @EventPattern(AppEvent.OBSERVATORY_STATUS_CHANGED)
   async terminateAndRespond(data: any) {
     FrontendEvent.emit({
-      data: { event: AppEvent.LIGHTHOUSE_STATUS_CHANGED, data },
+      data: { event: AppEvent.OBSERVATORY_STATUS_CHANGED, data },
     });
   }
 

@@ -7,6 +7,8 @@ import { HTMLExtractor } from '../pages/HTMLExtractor';
 import { SitemapExtractor } from '../pages/SitemapExtractor';
 import { SecutityAudit } from '../pages/SecutityAudit';
 import { LighthouseResult } from '../pages/LighthouseResult';
+import { Summarizer } from '../pages/Summarizer';
+import { SummarizerResult } from '../pages/SummarizerResult';
 
 type ExtendedRouteObject = RouteObject & {
   icon?: string;
@@ -58,6 +60,19 @@ export const routes: ExtendedRouteObject[] = [
     element: <SecutityAudit />,
     label: 'Security audit',
     icon: 'security',
+  },
+  {
+    path: '/summarize',
+    element: <Summarizer />,
+    label: 'Text summarizer',
+    icon: 'summarize',
+  },
+  {
+    path: '/summarize/:id',
+    element: <SummarizerResult />,
+    icon: 'summarize',
+    label: 'Summarizer Result',
+    exclude: true,
   },
 ];
 

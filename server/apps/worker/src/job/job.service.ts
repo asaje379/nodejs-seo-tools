@@ -36,4 +36,18 @@ export class JobService {
       data: { taskId },
     });
   }
+
+  async setObservatoryTask(taskId: string, observatoryId: string) {
+    await this.prisma.observatory.update({
+      where: { id: observatoryId },
+      data: { taskId },
+    });
+  }
+
+  async setSummarizerTask(taskId: string, summarizerId: string) {
+    await this.prisma.summarizer.update({
+      where: { id: summarizerId },
+      data: { taskId },
+    });
+  }
 }

@@ -1,10 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class LighthousePayload {
+export class UrlPayload {
   @ApiProperty() url: string;
 }
 
-export type LighthouseMsArgs = {
+export class TextAndUrlPayload {
+  @ApiPropertyOptional() text?: string;
+  @ApiPropertyOptional() url?: string;
+}
+
+export type UrlMsArgs = {
   url: string;
+  id: string;
+};
+
+export type TextAndUrlMsArgs = {
+  url?: string;
+  text?: string;
   id: string;
 };

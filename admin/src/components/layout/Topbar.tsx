@@ -5,8 +5,6 @@ import { BackTitle } from '../core/BackTitle';
 export const Topbar = () => {
   const info = usePageLabel();
 
-  console.log(info);
-
   return (
     <div className="flex justify-between items-center px-6 py-4">
       <div className="text-2xl font-semibold">
