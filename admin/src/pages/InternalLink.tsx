@@ -8,30 +8,14 @@ import { ListResponse } from '../api/requests/typings';
 import { Status } from '../components/core/Status';
 import { TableRow } from '../components/core/table/CustomTable';
 import internalLinkApi from '../api/requests/internallink.api';
-import { CreateSitemap } from '../components/forms/CreateSitemap';
 import { CreateInternalLink } from '../components/forms/CreateInternalLink';
-
-const internalLinkTableRows = [
-  { label: 'Website URL', id: 'url' },
-  {
-    label: 'Statut',
-    render: (row: any) => <Status value={row.task?.status} />,
-  },
-  {
-    label: 'Action',
-    render: () => (
-      <Button
-        size="xs"
-        color="light">
-        Result
-      </Button>
-    ),
-  },
-];
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 export const InternalLinkExtractor = () => {
   const props = useDatable({});
+  const navigate = useNavigate();
 
   const { data, loading, refresh } = useFetch<ListResponse>(
     () =>
@@ -46,6 +30,30 @@ export const InternalLinkExtractor = () => {
     },
   );
 
+  const internalLinkTableRows = useMemo(
+    () => [
+    { label: 'Website URL', id: 'url' },
+    {
+      label: 'Statut',
+      render: (row: any) => <Status value={row?.taskStatus} />,
+    },
+    {
+      label: 'Action',
+      render: (row: any) =>
+        !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
+          <></>
+        ) : (
+          <Button
+            onClick={() => navigate(`/internal-link/${row.id}`)}
+            size="xs"
+            color="light">
+            Result
+          </Button>
+        ),
+    },
+   ],[]
+  );
+
   return (
     <Layout>
       <div className="mt-6">
@@ -54,16 +62,14 @@ export const InternalLinkExtractor = () => {
           <CreateInternalLink onSubmit={refresh} />
         </Card>
 
-        {!loading && (
           <div className="my-8">
             <Datatable
               cols={internalLinkTableRows}
               {...props}
-              totalCount={data?.count}
+              totalCount={data?.count ?? 0}
               rows={(data?.values ?? []) as TableRow[]}
             />
           </div>
-        )}
       </div>
     </Layout>
   );

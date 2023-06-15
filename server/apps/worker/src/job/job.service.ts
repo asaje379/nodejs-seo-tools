@@ -50,4 +50,11 @@ export class JobService {
       data: { taskId },
     });
   }
+
+  async setSerpTask(taskId: string, serpId: string) {
+    await this.prisma.serp.update({
+      where: { id: serpId },
+      data: { taskId },
+    });
+  }
 }

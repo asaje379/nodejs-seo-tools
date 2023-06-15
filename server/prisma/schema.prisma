@@ -24,6 +24,7 @@ enum TaskType {
   LIGHTHOUSE
   OBSERVATORY
   INTERNAL_LINKS
+  SERP
 }
 
 model Task {
@@ -40,6 +41,7 @@ model Task {
   Ligthouse Ligthouse[]
   Sitemap Sitemap[]
   InternalLink InternalLink[]
+  Serp Serp[]
 }
 
 model Ligthouse {
@@ -65,6 +67,17 @@ model InternalLink {
   createdAt DateTime @default(now())
   enabled   Boolean  @default(true)
   url       String
+  depth     Int
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    String?
+}
+
+model Serp {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  enabled   Boolean  @default(true)
+  url       String
+  keyword   String
   task      Task?    @relation(fields: [taskId], references: [id])
   taskId    String?
 }

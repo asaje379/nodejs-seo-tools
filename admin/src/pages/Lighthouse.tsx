@@ -60,7 +60,6 @@ export const Lighthouse = () => {
       <div className="mt-6">
         <Card>
           <h5 className="text-xl font-semibold">Start a new analysis</h5>
-
           <CreateLighthouse onSubmit={refresh} />
         </Card>
 

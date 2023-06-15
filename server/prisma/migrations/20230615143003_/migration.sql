@@ -2,7 +2,7 @@
 CREATE TYPE "TaskStatus" AS ENUM ('IN_PROGRESS', 'SUCCESS', 'FAILED');
 
 -- CreateEnum
-CREATE TYPE "TaskType" AS ENUM ('SUMMARIZER', 'EXTRACTOR', 'SITEMAP', 'KEYWORD', 'LIGHTHOUSE', 'OBSERVATORY', 'INTERNAL_LINKS');
+CREATE TYPE "TaskType" AS ENUM ('SUMMARIZER', 'EXTRACTOR', 'SITEMAP', 'KEYWORD', 'LIGHTHOUSE', 'OBSERVATORY', 'INTERNAL_LINKS', 'SERP');
 
 -- CreateTable
 CREATE TABLE "Task" (
@@ -48,9 +48,22 @@ CREATE TABLE "InternalLink" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "enabled" BOOLEAN NOT NULL DEFAULT true,
     "url" TEXT NOT NULL,
+    "depth" INTEGER NOT NULL,
     "taskId" TEXT,
 
     CONSTRAINT "InternalLink_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Serp" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "url" TEXT NOT NULL,
+    "keyword" TEXT NOT NULL,
+    "taskId" TEXT,
+
+    CONSTRAINT "Serp_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
@@ -61,3 +74,6 @@ ALTER TABLE "Sitemap" ADD CONSTRAINT "Sitemap_taskId_fkey" FOREIGN KEY ("taskId"
 
 -- AddForeignKey
 ALTER TABLE "InternalLink" ADD CONSTRAINT "InternalLink_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Serp" ADD CONSTRAINT "Serp_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -16,6 +16,7 @@ export class JobController {
     @InjectQueue(JobQueues.Lighthouse) private lighthouseQueue: Queue,
     @InjectQueue(JobQueues.Summarizer) private summarizerQueue: Queue,
     @InjectQueue(JobQueues.Observatory) private observatoryQueue: Queue,
+    @InjectQueue(JobQueues.Serp) private serpQueue: Queue,
   ) {}
 
   @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
@@ -52,5 +53,10 @@ export class JobController {
   @EventPattern(AppEvent.RUN_INTERNAL_LINKS)
   async runInternalLink(data: { url: string, maxDepth: number }) {
     await this.internalLinkQueue.add(AppEvent.RUN_INTERNAL_LINKS, data);
+  }
+
+  @EventPattern(AppEvent.RUN_SERP)
+  async runSerp(data: { url: string, keyword: string }) {
+    await this.serpQueue.add(AppEvent.RUN_SERP, data);
   }
 }

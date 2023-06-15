@@ -8,6 +8,9 @@ import { SitemapExtractor } from '../pages/SitemapExtractor';
 import { SecutityAudit } from '../pages/SecutityAudit';
 import { LighthouseResult } from '../pages/LighthouseResult';
 import { InternalLinkExtractor } from '../pages/InternalLink';
+import { SitemapResult } from '../pages/SitemapExtractorResult';
+import { InternalLinkResult } from '../pages/InternalLinkResult';
+import { SerpResult } from '../pages/SerpResult';
 
 type ExtendedRouteObject = RouteObject & {
   icon?: string;
@@ -28,6 +31,27 @@ export const routes: ExtendedRouteObject[] = [
     element: <LighthouseResult />,
     icon: 'insights',
     label: 'Lighthouse Result',
+    exclude: true,
+  },
+  {
+    path: '/site-map/:id',
+    element: <SitemapResult />,
+    icon: 'travel_explore',
+    label: 'Sitemap Result',
+    exclude: true,
+  },
+  {
+    path: '/internal-link/:id',
+    element: <InternalLinkResult />,
+    icon: 'share',
+    label: 'Internal Link Result',
+    exclude: true,
+  },
+  {
+    path: '/serp/:id',
+    element: <SerpResult />,
+    icon: 'star_rate',
+    label: 'Serp Result',
     exclude: true,
   },
   {

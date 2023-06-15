@@ -13,6 +13,11 @@ export class InternalLinkPayload {
   @ApiProperty() nbre: number;
 }
 
+export class SerpPayload {
+  @ApiProperty() url: string;
+  @ApiProperty() keyword: string;
+}
+
 export type LighthouseMsArgs = {
   url: string;
   id: string;
@@ -27,4 +32,10 @@ export type InternalLinkMsArgs = {
   url: string;
   id: string;
   nbre: number;
+};
+
+export type SerpMsArgs = {
+  url: string;
+  id: string;
+  keyword: string;
 };

@@ -9,28 +9,14 @@ import { Status } from '../components/core/Status';
 import { TableRow } from '../components/core/table/CustomTable';
 import sitemapApi from '../api/requests/sitemap.api';
 import { CreateSitemap } from '../components/forms/CreateSitemap';
+import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
 
-const sitemapTableRows = [
-  { label: 'Website URL', id: 'url' },
-  {
-    label: 'Statut',
-    render: (row: any) => <Status value={row.task?.status} />,
-  },
-  {
-    label: 'Action',
-    render: () => (
-      <Button
-        size="xs"
-        color="light">
-        Result
-      </Button>
-    ),
-  },
-];
 
 
 export const SitemapExtractor = () => {
   const props = useDatable({});
+  const navigate = useNavigate();
 
   const { data, loading, refresh } = useFetch<ListResponse>(
     () =>
@@ -45,6 +31,31 @@ export const SitemapExtractor = () => {
     },
   );
 
+  
+ const sitemapTableRows = useMemo(
+  () => [
+  { label: 'Website URL', id: 'url' },
+  {
+    label: 'Statut',
+    render: (row: any) => <Status value={row?.taskStatus} />,
+  },
+  {
+    label: 'Action',
+    render: (row: any) =>
+      !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
+        <></>
+      ) : (
+        <Button
+          onClick={() => navigate(`/site-map/${row.id}`)}
+          size="xs"
+          color="light">
+          Result
+        </Button>
+      ),
+  },
+ ],[]
+);
+
   return (
     <Layout>
       <div className="mt-6">
@@ -53,16 +64,14 @@ export const SitemapExtractor = () => {
           <CreateSitemap onSubmit={refresh} />
         </Card>
 
-        {!loading && (
           <div className="my-8">
             <Datatable
               cols={sitemapTableRows}
               {...props}
-              totalCount={data?.count}
+              totalCount={data?.count ?? 0}
               rows={(data?.values ?? []) as TableRow[]}
             />
           </div>
-        )}
       </div>
     </Layout>
   );

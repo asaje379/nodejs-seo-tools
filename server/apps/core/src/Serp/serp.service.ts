@@ -1,42 +1,40 @@
 import { PrismaService } from '@app/prisma';
-import { AppEvent, MicroServiceName, SiteMapPayload } from '@app/shared';
+import { AppEvent, MicroServiceName, SerpPayload } from '@app/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Pagination } from '../utils/typings';
 import { paginate } from 'nestjs-prisma-pagination';
 import { Helper } from '../utils/helper';
-import { Sitemap, Task } from '@prisma/client';
+import { Task, Serp } from '@prisma/client';
 
 @Injectable()
-export class SitemapService {
+export class SerpService {
   constructor(
     private prisma: PrismaService,
     @Inject(MicroServiceName.WORKER) private client: ClientProxy,
   ) {}
 
-  async run({ url }: SiteMapPayload) {
-    const sitemap = await this.prisma.sitemap.create({
-      data: { url },
+  async run({ url, keyword }: SerpPayload) {
+    const serp = await this.prisma.serp.create({
+      data: { url, keyword },
     });
-    console.log('------------ after inserted in db ----------------');
-    
-    this.client.emit(AppEvent.RUN_SITEMAP, { url, id: sitemap.id });
+    this.client.emit(AppEvent.RUN_SERP, { url, id: serp.id, keyword });
   }
 
   async findAll(args?: Pagination) {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
-    const values = await this.prisma.sitemap.findMany(query);
-    const count = await this.prisma.sitemap.count({ where: query.where });
+    const values = await this.prisma.serp.findMany(query);
+    const count = await this.prisma.serp.count({ where: query.where });
     return {
       values: Helper.cleanTaskInListResponse(
-        values as (Sitemap & { task: Task })[],
+        values as (Serp & { task: Task })[],
       ),
       count,
     };
   }
 
   async findOne(id: string) {
-    return await this.prisma.sitemap.findFirst({
+    return await this.prisma.serp.findFirst({
       where: { id },
       include: { task: true },
     });

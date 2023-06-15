@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { InternalLinkController } from './internal-link.controller';
+import { SerpController } from './serp.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MicroServiceName } from '@app/shared';
-import { InternalLinkService } from './internal-link.service';
+import { SerpService } from './serp.service';
 import { PrismaModule } from '@app/prisma';
 
 @Module({
@@ -19,7 +19,7 @@ import { PrismaModule } from '@app/prisma';
     ]),
     PrismaModule,
   ],
-  controllers: [InternalLinkController],
-  providers: [InternalLinkService],
+  controllers: [SerpController],
+  providers: [SerpService],
 })
-export class InternalLinkModule {}
+export class SerpModule {}
