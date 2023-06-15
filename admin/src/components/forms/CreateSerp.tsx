@@ -15,6 +15,7 @@ export const CreateSerp = ({ onSubmit }: Props) => {
     await serpApi.run(url, keyword);
 
     setUrl('');
+    setKeyword('');
     if (onSubmit) onSubmit();
   };
 

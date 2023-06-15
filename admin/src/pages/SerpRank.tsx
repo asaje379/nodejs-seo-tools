@@ -31,7 +31,8 @@ export const SerpRank = () => {
 
   const serpTableRows = useMemo(
     () => [
-    { label: 'Website URL', id: 'url' },
+    { label: 'Domain', id: 'url' },
+    { label: 'Keyword', id: 'keyword' },
     {
       label: 'Statut',
       render: (row: any) => <Status value={row?.taskStatus} />,

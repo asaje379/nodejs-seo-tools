@@ -1,6 +1,7 @@
 import * as Crawler from 'crawler';
 import { Helper } from '../utils/helper';
-import { TreeNode } from '../utils/typings';
+import { TreeNode } from '@app/shared';
+// import { TreeNode } from '../utils/typings';
 
 export class InternalLink {
 

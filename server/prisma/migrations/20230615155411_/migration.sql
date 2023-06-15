@@ -43,6 +43,53 @@ CREATE TABLE "Sitemap" (
 );
 
 -- CreateTable
+CREATE TABLE "Keyword" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "text" TEXT NOT NULL,
+    "stopwords" TEXT NOT NULL DEFAULT '',
+    "taskId" TEXT,
+
+    CONSTRAINT "Keyword_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Extractor" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "url" TEXT NOT NULL,
+    "kinds" TEXT NOT NULL,
+    "taskId" TEXT,
+
+    CONSTRAINT "Extractor_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Summarizer" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "url" TEXT,
+    "text" TEXT,
+    "taskId" TEXT,
+
+    CONSTRAINT "Summarizer_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Observatory" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
+    "url" TEXT NOT NULL,
+    "taskId" TEXT,
+
+    CONSTRAINT "Observatory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "InternalLink" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -71,6 +118,18 @@ ALTER TABLE "Ligthouse" ADD CONSTRAINT "Ligthouse_taskId_fkey" FOREIGN KEY ("tas
 
 -- AddForeignKey
 ALTER TABLE "Sitemap" ADD CONSTRAINT "Sitemap_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Keyword" ADD CONSTRAINT "Keyword_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Extractor" ADD CONSTRAINT "Extractor_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Summarizer" ADD CONSTRAINT "Summarizer_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Observatory" ADD CONSTRAINT "Observatory_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "InternalLink" ADD CONSTRAINT "InternalLink_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;

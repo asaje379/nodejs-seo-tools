@@ -5,10 +5,10 @@ import { Helper } from '../utils/helper';
 export class SerpScore {
   // = 'https://www.google.com/search?q=juste+un+test&start=8'
   async run(data: {url: string, keyword: string}) {
-    console.log(data);
+    // console.log(data);
     
     const keyword = this.formatKeyword(data.keyword);
-    console.log(keyword);
+    // console.log(keyword);
     for (let i = 0; i < 10; i++) {
       const res: {index: number, url: string} = await this.checkData(data.url, keyword, i * 10);
       console.log(res);
@@ -16,7 +16,11 @@ export class SerpScore {
         return {index: res.index + 1, pageNumber: i + 1, url: res.url};
       }
       console.log(res);
+      console.log('------ tour number ----------');
+      console.log(i);
       await Helper.sleep(2000);
+      console.log('------ tour number ----------');
+      console.log(i);
     }
     return {index: -1, pageNumber: 0, url: ''};
   }
@@ -24,6 +28,7 @@ export class SerpScore {
   checkData(domain: string, keyword: string, pageNumber: number): Promise<{index: number, url: string}> {
     return new Promise((resolve) => {
       try {
+        console.log('---------- enter ------------');
         const url = `https://www.google.com/search?q=${keyword}&start=${pageNumber}`;
         const user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36';
           const config: AxiosRequestConfig = {
@@ -35,6 +40,7 @@ export class SerpScore {
           };
           axios(config)
           .then((response) => {
+            // console.log(response);
           const $ = cheerio.load(response.data);
           const urls: string[] = [];
           $(".apx8Vc.cHaqb").each((i, el) => {
@@ -47,7 +53,8 @@ export class SerpScore {
             if (el.includes(domain)) {
               resolve({index: i, url: el});
             }
-          })
+          });
+          resolve({index: -1, url: ''});
           })
           .catch((error) => {
             resolve({index: -1, url: ''});

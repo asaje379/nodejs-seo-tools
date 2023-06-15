@@ -33,6 +33,7 @@ export const InternalLinkExtractor = () => {
   const internalLinkTableRows = useMemo(
     () => [
     { label: 'Website URL', id: 'url' },
+    { label: 'Depth', id: 'depth' },
     {
       label: 'Statut',
       render: (row: any) => <Status value={row?.taskStatus} />,
