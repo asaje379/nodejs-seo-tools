@@ -4,7 +4,7 @@ import {
   Extractor,
   SoupExtractionResult,
   SoupExtractorKind,
-} from '../../utils/typings';
+} from '@app/shared';
 
 export class SoupExtractor
   implements Extractor<SoupExtractorKind[], SoupExtractionResult>

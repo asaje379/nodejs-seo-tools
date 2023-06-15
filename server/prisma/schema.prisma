@@ -40,6 +40,8 @@ model Task {
   Ligthouse   Ligthouse[]
   Summarizer  Summarizer[]
   Observatory Observatory[]
+  Keyword     Keyword[]
+  Extractor   Extractor[]
 }
 
 model Ligthouse {
@@ -47,6 +49,26 @@ model Ligthouse {
   createdAt DateTime @default(now())
   enabled   Boolean  @default(true)
   url       String
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    String?
+}
+
+model Keyword {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  enabled   Boolean  @default(true)
+  text      String
+  stopwords String   @default("")
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    String?
+}
+
+model Extractor {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  enabled   Boolean  @default(true)
+  url       String
+  kinds     String
   task      Task?    @relation(fields: [taskId], references: [id])
   taskId    String?
 }

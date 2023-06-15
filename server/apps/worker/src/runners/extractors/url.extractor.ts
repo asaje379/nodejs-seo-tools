@@ -1,4 +1,4 @@
-import { Extractor } from '../../utils/typings';
+import { Extractor } from '@app/shared';
 
 export class UrlExtractor implements Extractor<string, string[]> {
   extract(str: string, lower = false) {

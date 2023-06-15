@@ -1,25 +1,25 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { ObservatoryService } from './observatory.service';
-import { AppEvent, UrlPayload } from '@app/shared';
+import { KeywordService } from './keyword.service';
+import { AppEvent, TextAndStopwordPayload } from '@app/shared';
 import { EventPattern } from '@nestjs/microservices';
 import { FrontendEvent } from '../events';
 import { Pagination } from '../utils/typings';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('observatory')
-@ApiTags('Security audit')
-export class ObservatoryController {
-  constructor(private service: ObservatoryService) {}
+@Controller('keyword')
+@ApiTags('Keyword extractor')
+export class KeywordController {
+  constructor(private service: KeywordService) {}
 
   @Post('run')
-  async run(@Body() data: UrlPayload) {
+  async run(@Body() data: TextAndStopwordPayload) {
     return await this.service.run(data);
   }
 
-  @EventPattern(AppEvent.OBSERVATORY_STATUS_CHANGED)
+  @EventPattern(AppEvent.KEYWORD_STATUS_CHANGED)
   async terminateAndRespond(data: any) {
     FrontendEvent.emit({
-      data: { event: AppEvent.OBSERVATORY_STATUS_CHANGED, data },
+      data: { event: AppEvent.KEYWORD_STATUS_CHANGED, data },
     });
   }
 

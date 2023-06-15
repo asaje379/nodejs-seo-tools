@@ -1,42 +1,45 @@
 import { PrismaService } from '@app/prisma';
-import { AppEvent, MicroServiceName, UrlPayload } from '@app/shared';
+import {
+  AppEvent,
+  MicroServiceName,
+  TextAndStopwordPayload,
+} from '@app/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Pagination } from '../utils/typings';
 import { paginate } from 'nestjs-prisma-pagination';
 import { Helper } from '../utils/helper';
-import { Observatory, Task } from '@prisma/client';
+import { Keyword, Task } from '@prisma/client';
 
 @Injectable()
-export class ObservatoryService {
+export class KeywordService {
   constructor(
     private prisma: PrismaService,
     @Inject(MicroServiceName.WORKER) private client: ClientProxy,
   ) {}
 
-  async run({ url }: UrlPayload) {
-    console.log(url);
-    const observatory = await this.prisma.observatory.create({
-      data: { url },
+  async run({ text, stopwords }: TextAndStopwordPayload) {
+    const keyword = await this.prisma.keyword.create({
+      data: { text, stopwords },
     });
-    this.client.emit(AppEvent.RUN_OBSERVATORY, { url, id: observatory.id });
+    this.client.emit(AppEvent.RUN_KEYWORD, { text, stopwords, id: keyword.id });
   }
 
   async findAll(args?: Pagination) {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
-    const values = await this.prisma.observatory.findMany(query);
+    const values = await this.prisma.keyword.findMany(query);
+    const count = await this.prisma.keyword.count({ where: query.where });
     console.log(values);
-    const count = await this.prisma.observatory.count({ where: query.where });
     return {
       values: Helper.cleanTaskInListResponse(
-        values as (Observatory & { task: Task })[],
+        values as (Keyword & { task: Task })[],
       ),
       count,
     };
   }
 
   async findOne(id: string) {
-    return await this.prisma.observatory.findFirst({
+    return await this.prisma.keyword.findFirst({
       where: { id },
       include: { task: true },
     });

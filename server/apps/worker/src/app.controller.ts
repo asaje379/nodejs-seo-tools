@@ -71,7 +71,7 @@ export class AppController {
   @Get('serp')
   async serp() {
     const result = new SerpScore().run(
-      'https://www.google.com/search?q=google+hello+kitty&rlz=1C5CHFA_enBJ1025BJ1027&ei=7_p-ZJ_HH56akdUPiKO2cA&start=10&sa=N&ved=2ahUKEwjf-uSDqa7_AhUeTaQEHYiRDQ4Q8tMDegQIBBAE&biw=1393&bih=764&dpr=2&bshm=nce/1',
+      'https://www.google.com/search?q=google',
     );
     return result;
   }

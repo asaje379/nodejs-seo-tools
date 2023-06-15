@@ -9,6 +9,8 @@ import { SecutityAudit } from '../pages/SecutityAudit';
 import { LighthouseResult } from '../pages/LighthouseResult';
 import { Summarizer } from '../pages/Summarizer';
 import { SummarizerResult } from '../pages/SummarizerResult';
+import { SecurityAuditResult } from '../pages/SecurityAuditResult';
+import { KeywordFinderResult } from '../pages/KeywordFinderResult';
 
 type ExtendedRouteObject = RouteObject & {
   icon?: string;
@@ -44,6 +46,13 @@ export const routes: ExtendedRouteObject[] = [
     icon: 'match_word',
   },
   {
+    path: '/keyword-finder/:id',
+    element: <KeywordFinderResult />,
+    label: 'Find Keywords',
+    icon: 'match_word',
+    exclude: true,
+  },
+  {
     path: '/html-extractor',
     element: <HTMLExtractor />,
     label: 'HTML extractor',
@@ -60,6 +69,13 @@ export const routes: ExtendedRouteObject[] = [
     element: <SecutityAudit />,
     label: 'Security audit',
     icon: 'security',
+  },
+  {
+    path: '/security-audit/:id',
+    element: <SecurityAuditResult />,
+    label: 'Security audit',
+    icon: 'security',
+    exclude: true,
   },
   {
     path: '/summarize',

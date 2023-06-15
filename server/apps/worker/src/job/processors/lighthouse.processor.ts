@@ -16,7 +16,6 @@ export class JobLighthouseProcessor {
 
   @Process(AppEvent.RUN_LIGHTHOUSE)
   async runLighthouse({ id, data }: Job) {
-    console.log('[Task started:Lighthouse]', id, data);
     const _data = data as UrlMsArgs;
     const task = await this.service.init(id, {
       data: { url: _data.url },
@@ -27,7 +26,6 @@ export class JobLighthouseProcessor {
 
     const lighthouse = new Lighthouse();
     const result = await lighthouse.run(_data.url);
-    console.log('result', result);
 
     await this.service.end(task.id, result);
     this.appClient.emit(AppEvent.LIGHTHOUSE_STATUS_CHANGED, result);

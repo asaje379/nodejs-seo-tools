@@ -50,4 +50,18 @@ export class JobService {
       data: { taskId },
     });
   }
+
+  async setKeywordTask(taskId: string, keywordId: string) {
+    await this.prisma.keyword.update({
+      where: { id: keywordId },
+      data: { taskId },
+    });
+  }
+
+  async setExtractorTask(taskId: string, extractorId: string) {
+    await this.prisma.extractor.update({
+      where: { id: extractorId },
+      data: { taskId },
+    });
+  }
 }

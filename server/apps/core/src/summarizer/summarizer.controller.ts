@@ -4,8 +4,10 @@ import { AppEvent, TextAndUrlPayload } from '@app/shared';
 import { EventPattern } from '@nestjs/microservices';
 import { FrontendEvent } from '../events';
 import { Pagination } from '../utils/typings';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('summarizer')
+@ApiTags('Text summarizer generator')
 export class SummarizerController {
   constructor(private service: SummarizerService) {}
 

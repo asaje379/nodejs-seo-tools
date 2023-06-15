@@ -1,42 +1,41 @@
 import { PrismaService } from '@app/prisma';
-import { AppEvent, MicroServiceName, UrlPayload } from '@app/shared';
+import { AppEvent, MicroServiceName, SoupExtractorPayload } from '@app/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Pagination } from '../utils/typings';
 import { paginate } from 'nestjs-prisma-pagination';
 import { Helper } from '../utils/helper';
-import { Observatory, Task } from '@prisma/client';
+import { Extractor, Task } from '@prisma/client';
 
 @Injectable()
-export class ObservatoryService {
+export class ExtractorService {
   constructor(
     private prisma: PrismaService,
     @Inject(MicroServiceName.WORKER) private client: ClientProxy,
   ) {}
 
-  async run({ url }: UrlPayload) {
-    console.log(url);
-    const observatory = await this.prisma.observatory.create({
-      data: { url },
+  async run({ url, options }: SoupExtractorPayload) {
+    const keyword = await this.prisma.extractor.create({
+      data: { url, kinds: options.join(',') },
     });
-    this.client.emit(AppEvent.RUN_OBSERVATORY, { url, id: observatory.id });
+    this.client.emit(AppEvent.RUN_KEYWORD, { url, options, id: keyword.id });
   }
 
   async findAll(args?: Pagination) {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
-    const values = await this.prisma.observatory.findMany(query);
+    const values = await this.prisma.extractor.findMany(query);
+    const count = await this.prisma.extractor.count({ where: query.where });
     console.log(values);
-    const count = await this.prisma.observatory.count({ where: query.where });
     return {
       values: Helper.cleanTaskInListResponse(
-        values as (Observatory & { task: Task })[],
+        values as (Extractor & { task: Task })[],
       ),
       count,
     };
   }
 
   async findOne(id: string) {
-    return await this.prisma.observatory.findFirst({
+    return await this.prisma.extractor.findFirst({
       where: { id },
       include: { task: true },
     });
