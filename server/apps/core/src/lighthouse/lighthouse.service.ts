@@ -1,5 +1,5 @@
 import { PrismaService } from '@app/prisma';
-import { AppEvent, LighthousePayload, MicroServiceName } from '@app/shared';
+import { AppEvent, MicroServiceName, UrlPayload } from '@app/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { Pagination } from '../utils/typings';
@@ -14,7 +14,7 @@ export class LighthouseService {
     @Inject(MicroServiceName.WORKER) private client: ClientProxy,
   ) {}
 
-  async run({ url }: LighthousePayload) {
+  async run({ url }: UrlPayload) {
     const lighthouse = await this.prisma.ligthouse.create({
       data: { url },
     });

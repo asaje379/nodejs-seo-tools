@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - seo_tools
+    # env_file:
+    #   - .env
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8099:8080
+    networks:
+      - seo_tools
+
+  # server:
+  #   build: .
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   command: yarn start
+  #   networks:
+  #     - seo_tools
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+  #   links:
+  #     - redis
+
+  redis:
+    image: redis
+    networks:
+      - seo_tools
+
+volumes:
+  data:
+
+networks:
+  seo_tools:

@@ -1,4 +1,4 @@
-import { AppEvent, LighthousePayload } from '@app/shared';
+import { AppEvent, UrlPayload } from '@app/shared';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { FrontendEvent } from '../events';
@@ -12,7 +12,7 @@ export class LighthouseController {
   constructor(private service: LighthouseService) {}
 
   @Post('run')
-  async run(@Body() data: LighthousePayload) {
+  async run(@Body() data: UrlPayload) {
     return await this.service.run(data);
   }
 

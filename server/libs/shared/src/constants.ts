@@ -50,11 +50,6 @@ export type SoupExtractionResult = {
   headers?: Record<string, { count: number; values: string[] }>;
 };
 
-export interface SoupExtractorArgs {
-  url: string;
-  options: SoupExtractorKind[];
-}
-
 export interface Extractor<T, Q> {
   extract: (args: T) => Q | Promise<Q>;
 }

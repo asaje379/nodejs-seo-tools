@@ -1,11 +1,9 @@
 import { Button, TextInput } from 'flowbite-react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import lighthouseApi from '../../api/requests/lighthouse.api';
+import { CreateProps } from './typings';
 
-type Props = {
-  onSubmit?: () => void;
-};
-export const CreateLighthouse = ({ onSubmit }: Props) => {
+export const CreateLighthouse = ({ onSubmit }: CreateProps) => {
   const [url, setUrl] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

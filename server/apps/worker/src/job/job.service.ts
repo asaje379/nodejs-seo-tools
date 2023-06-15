@@ -44,6 +44,13 @@ export class JobService {
     });
   }
 
+  async setObservatoryTask(taskId: string, observatoryId: string) {
+    await this.prisma.observatory.update({
+      where: { id: observatoryId },
+      data: { taskId },
+    });
+  }
+
   async setInternalLinkTask(taskId: string, sitemapId: string) {
     await this.prisma.internalLink.update({
       where: { id: sitemapId },
@@ -51,9 +58,30 @@ export class JobService {
     });
   }
 
+  async setSummarizerTask(taskId: string, summarizerId: string) {
+    await this.prisma.summarizer.update({
+      where: { id: summarizerId },
+      data: { taskId },
+    });
+  }
+
   async setSerpTask(taskId: string, serpId: string) {
     await this.prisma.serp.update({
       where: { id: serpId },
+      data: { taskId },
+    });
+  }
+
+  async setKeywordTask(taskId: string, keywordId: string) {
+    await this.prisma.keyword.update({
+      where: { id: keywordId },
+      data: { taskId },
+    });
+  }
+
+  async setExtractorTask(taskId: string, extractorId: string) {
+    await this.prisma.extractor.update({
+      where: { id: extractorId },
       data: { taskId },
     });
   }

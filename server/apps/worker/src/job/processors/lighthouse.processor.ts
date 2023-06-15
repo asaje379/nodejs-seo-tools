@@ -5,7 +5,7 @@ import { JobService } from '../job.service';
 import { Job } from 'bull';
 import { TaskType } from '@prisma/client';
 import { Lighthouse } from '../../runners/lighthouse';
-import { AppEvent, JobQueues, LighthouseMsArgs } from '@app/shared';
+import { AppEvent, JobQueues, UrlMsArgs } from '@app/shared';
 
 @Processor(JobQueues.Lighthouse)
 export class JobLighthouseProcessor {
@@ -16,8 +16,7 @@ export class JobLighthouseProcessor {
 
   @Process(AppEvent.RUN_LIGHTHOUSE)
   async runLighthouse({ id, data }: Job) {
-    console.log('[Task started:Lighthouse]', id, data);
-    const _data = data as LighthouseMsArgs;
+    const _data = data as UrlMsArgs;
     const task = await this.service.init(id, {
       data: { url: _data.url },
       type: TaskType.LIGHTHOUSE,
@@ -29,7 +28,6 @@ export class JobLighthouseProcessor {
 
     const lighthouse = new Lighthouse();
     const result = await lighthouse.run(_data.url);
-    console.log('result', result);
 
     await this.service.end(task.id, result);
     this.appClient.emit(AppEvent.LIGHTHOUSE_STATUS_CHANGED, result);

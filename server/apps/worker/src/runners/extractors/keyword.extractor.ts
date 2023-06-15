@@ -1,5 +1,5 @@
+import { Extractor } from '@app/shared';
 import * as rake from 'node-rake-v2';
-import { Extractor } from '../../utils/typings';
 
 export interface KeywordExtractorArgs {
   text: string;

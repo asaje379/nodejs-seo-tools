@@ -1,7 +1,7 @@
 import * as summarizer from 'text-summarization';
 
 export class Summarizer {
-  run(text: string) {
-    return summarizer({ text });
+  async run(text: string) {
+    return await summarizer({ text });
   }
 }

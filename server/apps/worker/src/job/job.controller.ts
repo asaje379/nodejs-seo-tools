@@ -2,9 +2,8 @@ import { InjectQueue } from '@nestjs/bull';
 import { Controller } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { Queue } from 'bull';
-import { SoupExtractorArgs } from '../utils/typings';
 import { KeywordExtractorArgs } from '../runners/extractors/keyword.extractor';
-import { AppEvent, JobQueues } from '@app/shared';
+import { AppEvent, JobQueues, SoupExtractorPayload } from '@app/shared';
 
 @Controller('job')
 export class JobController {
@@ -20,7 +19,8 @@ export class JobController {
   ) {}
 
   @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
-  async runSoupExtractor(data: SoupExtractorArgs) {
+  async runSoupExtractor(data: SoupExtractorPayload) {
+    console.log(data, 'qjhdjqhs');
     await this.extractorQueue.add(AppEvent.RUN_SOUP_EXTRACTOR, data);
   }
 

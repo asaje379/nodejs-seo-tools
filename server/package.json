@@ -6,11 +6,13 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build core && nest build worker",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
+    "start": "npm-run-all --parallel start:core start:worker",
     "dev:core": "nest start core --watch",
     "dev:worker": "nest start worker --watch",
+    "start:core": "nest start core",
+    "start:worker": "nest start worker",
     "dev": "npm-run-all --parallel dev:core dev:worker",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/worker/main",
@@ -20,7 +22,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/worker/test/jest-e2e.json",
-    "migrate": "prisma migrate dev"
+    "migrate": "prisma migrate dev",
+    "migrate:gen": "prisma generate",
+    "migrate:prod": "prisma migrate deploy"
   },
   "dependencies": {
     "@nestjs/bull": "^0.6.3",

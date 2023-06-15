@@ -1,6 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { SoupExtractorKind } from './constants';
 
-export class LighthousePayload {
+export class UrlPayload {
   @ApiProperty() url: string;
 }
 
@@ -18,7 +19,18 @@ export class SerpPayload {
   @ApiProperty() keyword: string;
 }
 
-export type LighthouseMsArgs = {
+// export type LighthouseMsArgs = {
+export class TextAndUrlPayload {
+  @ApiPropertyOptional() text?: string;
+  @ApiPropertyOptional() url?: string;
+}
+
+export class TextAndStopwordPayload extends UrlPayload {
+  @ApiProperty() text: string;
+  @ApiPropertyOptional() stopwords?: string;
+}
+
+export type UrlMsArgs = {
   url: string;
   id: string;
 };
@@ -38,4 +50,31 @@ export type SerpMsArgs = {
   url: string;
   id: string;
   keyword: string;
+};
+export type TextAndStopwordsMsArgs = {
+  text: string;
+  stopwords?: string;
+  id: string;
+};
+
+export type TextAndUrlMsArgs = {
+  url?: string;
+  text?: string;
+  id: string;
+};
+
+export class SoupExtractorPayload {
+  @ApiProperty() url: string;
+  @ApiProperty() options: SoupExtractorKind[];
+}
+
+export type UrlOptionsMsArgs = {
+  id: string;
+  url: string;
+  options: SoupExtractorKind[];
+};
+
+export type TreeNode = {
+  name: string;
+  children: TreeNode[]
 };

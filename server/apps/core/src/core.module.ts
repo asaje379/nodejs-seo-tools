@@ -7,6 +7,10 @@ import { LighthouseModule } from './lighthouse/lighthouse.module';
 import { SitemapModule } from './sitemap/sitemap.module';
 import { InternalLinkModule } from './internalLink/internal-link.module';
 import { SerpModule } from './Serp/serp.module';
+import { SummarizerModule } from './summarizer/summarizer.module';
+import { ObservatoryModule } from './observatory/observatory.module';
+import { KeywordModule } from './keyword/keyword.module';
+import { ExtractorModule } from './extractor/extractor.module';
 
 @Module({
   imports: [
@@ -16,7 +20,11 @@ import { SerpModule } from './Serp/serp.module';
     LighthouseModule,
     SitemapModule,
     InternalLinkModule,
-    SerpModule
+    SerpModule,
+    SummarizerModule,
+    ObservatoryModule,
+    KeywordModule,
+    ExtractorModule,
   ],
   controllers: [CoreController],
   providers: [CoreService],
