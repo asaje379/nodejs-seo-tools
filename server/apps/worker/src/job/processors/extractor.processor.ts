@@ -27,8 +27,6 @@ export class JobExtractorProcessor {
     await soup.loadUrl(_data.url);
     const result = await soup.extract(_data.options);
 
-    console.log(result, 'result');
-
     this.appClient.emit(AppEvent.EXTRACTION_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }

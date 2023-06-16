@@ -11,6 +11,7 @@ import { Summarizer } from '../pages/Summarizer';
 import { SummarizerResult } from '../pages/SummarizerResult';
 import { SecurityAuditResult } from '../pages/SecurityAuditResult';
 import { KeywordFinderResult } from '../pages/KeywordFinderResult';
+import { HTMLExtractorResult } from '../pages/HTMLExtractorResult';
 
 type ExtendedRouteObject = RouteObject & {
   icon?: string;
@@ -57,6 +58,13 @@ export const routes: ExtendedRouteObject[] = [
     element: <HTMLExtractor />,
     label: 'HTML extractor',
     icon: 'code_blocks',
+  },
+  {
+    path: '/html-extractor/:id',
+    element: <HTMLExtractorResult />,
+    label: 'HTML extractor',
+    icon: 'code_blocks',
+    exclude: true,
   },
   {
     path: '/sitemap-extractor',

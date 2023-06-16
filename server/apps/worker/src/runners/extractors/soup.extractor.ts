@@ -50,7 +50,7 @@ export class SoupExtractor
         continue;
       }
 
-      result.images.push(img);
+      result.images.push(info.attrs.src);
       const { alt, title } = info.attrs;
       if (!alt) result.summary.missingAlt++;
       if (!title) result.summary.missingTitle++;
@@ -68,17 +68,22 @@ export class SoupExtractor
       if (!href.startsWith('http')) {
         href = [this.baseUrl, href].join(href.startsWith('/') ? '' : '/');
       }
-      console.log(link.attrs.href, href);
       const pageInfo = await Http.getUrlPageInfo(href);
-      console.log(pageInfo.status);
       const key = String(pageInfo.status);
+      console.log(key);
       if (!(key in result)) {
-        result[key] = [String(link)];
+        result[key] = [
+          { key: String(link), href, html: String(link.contents) },
+        ];
         continue;
       }
 
-      if (result[key].includes(String(link))) continue;
-      result[key].push(String(link));
+      if (result[key].map((it) => it.key).includes(String(link))) continue;
+      result[key].push({
+        key: String(link),
+        href,
+        html: String(link.contents),
+      });
     }
 
     return result;

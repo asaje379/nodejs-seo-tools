@@ -21,7 +21,6 @@ export class JobSummarizerProcessor {
       data,
       type: TaskType.SUMMARIZER,
     });
-    console.log('init');
 
     const _data = data as TextAndUrlMsArgs;
 
@@ -34,11 +33,8 @@ export class JobSummarizerProcessor {
       text = content;
     }
 
-    console.log('before');
-
     const runner = new Summarizer();
     const result = await runner.run(text);
-    console.log(result);
 
     await this.service.end(task.id, result);
     return this.appClient.emit(AppEvent.SUMMARIZER_STATUS_CHANGED, result);

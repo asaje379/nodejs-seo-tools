@@ -27,8 +27,6 @@ export class JobOservatoryProcessor {
     const observatory = new Observatory();
     const result = await observatory.run(_data.url);
 
-    console.log('result', result);
-
     await this.service.end(task.id, result);
     this.appClient.emit(AppEvent.OBSERVATORY_STATUS_CHANGED, result);
   }

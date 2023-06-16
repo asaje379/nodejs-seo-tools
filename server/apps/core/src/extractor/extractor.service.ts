@@ -15,17 +15,20 @@ export class ExtractorService {
   ) {}
 
   async run({ url, options }: SoupExtractorPayload) {
-    const keyword = await this.prisma.extractor.create({
+    const extractor = await this.prisma.extractor.create({
       data: { url, kinds: options.join(',') },
     });
-    this.client.emit(AppEvent.RUN_KEYWORD, { url, options, id: keyword.id });
+    this.client.emit(AppEvent.RUN_SOUP_EXTRACTOR, {
+      url,
+      options,
+      id: extractor.id,
+    });
   }
 
   async findAll(args?: Pagination) {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
     const values = await this.prisma.extractor.findMany(query);
     const count = await this.prisma.extractor.count({ where: query.where });
-    console.log(values);
     return {
       values: Helper.cleanTaskInListResponse(
         values as (Extractor & { task: Task })[],
