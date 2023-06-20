@@ -18,8 +18,6 @@ export class SitemapService {
     const sitemap = await this.prisma.sitemap.create({
       data: { url },
     });
-    console.log('------------ after inserted in db ----------------');
-    
     this.client.emit(AppEvent.RUN_SITEMAP, { url, id: sitemap.id });
   }
 

@@ -20,7 +20,6 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
   async runSoupExtractor(data: SoupExtractorPayload) {
-    console.log(data, 'qjhdjqhs');
     await this.extractorQueue.add(AppEvent.RUN_SOUP_EXTRACTOR, data);
   }
 
@@ -46,7 +45,6 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SITEMAP)
   async runSiteMap(data: { url: string }) {
-    console.log('------------ run site map extractorQueue ------------------');
     await this.sitemapQueue.add(AppEvent.RUN_SITEMAP, data);
   }
 

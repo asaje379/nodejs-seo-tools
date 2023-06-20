@@ -25,7 +25,6 @@ export class ExtractorService {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
     const values = await this.prisma.extractor.findMany(query);
     const count = await this.prisma.extractor.count({ where: query.where });
-    console.log(values);
     return {
       values: Helper.cleanTaskInListResponse(
         values as (Extractor & { task: Task })[],

@@ -21,14 +21,9 @@ export class JobSerpProcessor {
       data: { url: _data.url },
       type: TaskType.SERP,
     });
-    console.log(_data);
-
     await this.service.setSerpTask(task.id, _data.id);
     this.appClient.emit(AppEvent.SERP_STATUS_CHANGED, {});
-    console.log('-------- before run serp ----------');
-    
     const result = await new SerpScore().run(_data);
-    console.log(result);
     this.appClient.emit(AppEvent.SERP_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }

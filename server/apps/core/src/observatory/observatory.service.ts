@@ -15,7 +15,6 @@ export class ObservatoryService {
   ) {}
 
   async run({ url }: UrlPayload) {
-    console.log(url);
     const observatory = await this.prisma.observatory.create({
       data: { url },
     });
@@ -25,7 +24,6 @@ export class ObservatoryService {
   async findAll(args?: Pagination) {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
     const values = await this.prisma.observatory.findMany(query);
-    console.log(values);
     const count = await this.prisma.observatory.count({ where: query.where });
     return {
       values: Helper.cleanTaskInListResponse(

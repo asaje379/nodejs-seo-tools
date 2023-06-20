@@ -66,8 +66,6 @@ export class InternalLink {
                 const oldUrl = internalLinks.findIndex((el) => el.url === link);
                 if (oldUrl === -1) {
                   crawler.queue({ uri: link, depth: currentDepth + 1 });
-                } else {
-                  console.log('existe');
                 }
               });
             }
@@ -86,8 +84,6 @@ export class InternalLink {
       crawler.on('drain', () => {
         this.tree.name = uri;
         const tree = this.listToTree(internalLinks, uri);
-        console.log(tree);
-        // resolve(internalLinks);
         resolve(tree);
       });
     })
@@ -115,8 +111,6 @@ export class InternalLink {
           this.listToTree(nodes, child.name, child);
         }
       }
-    } else {
-      console.log("-------- no branch -----------");
     }
     return tree;
   }

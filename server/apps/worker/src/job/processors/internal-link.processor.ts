@@ -21,12 +21,9 @@ export class JobInternalLinkProcessor {
       data: { url: _data.url },
       type: TaskType.INTERNAL_LINKS,
     });
-    console.log(_data);
-
     await this.service.setInternalLinkTask(task.id, _data.id);
     this.appClient.emit(AppEvent.INTERNAL_LINK_STATUS_CHANGED, {});
     const result = await new InternalLink().getInternalLink(_data.url, _data.nbre);
-
     this.appClient.emit(AppEvent.INTERNAL_LINK_STATUS_CHANGED, result);
     await this.service.end(task.id, result);
   }

@@ -8,23 +8,20 @@ export const SerpResult = () => {
   const { id } = useParams();
   const { data, loading } = useFetch<{task: {result: {result: any}}}>(() => serpApi.one(id ?? ''), {});
   let serpRank: any = {};
-  console.log(data);
   if (data) {
     serpRank = data['task']['result']['result'];
   }
   
-  // URL, index, pageNumber
-  // if (data) {
-  //   serpRank = data['task']['data']['result']['result'];
-  // }
   return (
     <Layout>
       <div className="font-semibold">Serp Result</div>
       {!loading && 
       <ListGroup>
-      <ListGroup.Item>Page : {serpRank.pageNumber}</ListGroup.Item>
-      <ListGroup.Item>Position : {serpRank.index}</ListGroup.Item>
-      <ListGroup.Item>{serpRank.url}</ListGroup.Item>
+      {serpRank.index !== -1 ?
+      <><ListGroup.Item>Page : {serpRank.pageNumber}</ListGroup.Item><ListGroup.Item>Position : {serpRank.index}</ListGroup.Item><ListGroup.Item>{serpRank.url}</ListGroup.Item></>
+      :
+      <ListGroup.Item>Not Found</ListGroup.Item>
+      }
       </ListGroup>
       }
     </Layout>

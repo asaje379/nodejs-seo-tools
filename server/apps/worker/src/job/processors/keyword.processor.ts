@@ -17,7 +17,6 @@ export class JobKeywordProcessor {
   @Process(AppEvent.RUN_KEYWORD)
   async runExtractor({ id, data }: Job) {
     const _data = data as TextAndStopwordsMsArgs;
-    console.log(_data);
     const task = await this.service.init(id, {
       data,
       type: TaskType.KEYWORD,

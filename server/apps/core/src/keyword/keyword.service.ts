@@ -29,7 +29,6 @@ export class KeywordService {
     const query = paginate(args, { includes: ['task'], search: ['url'] });
     const values = await this.prisma.keyword.findMany(query);
     const count = await this.prisma.keyword.count({ where: query.where });
-    console.log(values);
     return {
       values: Helper.cleanTaskInListResponse(
         values as (Keyword & { task: Task })[],
