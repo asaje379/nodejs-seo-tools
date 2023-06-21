@@ -16,9 +16,9 @@ export const SerpRank = () => {
   const props = useDatable({});
   const navigate = useNavigate();
 
-  const { data, loading, refresh } = useFetch<ListResponse>(
+  const { data, refresh } = useFetch<ListResponse>(
     () =>
-     SerpApi.all({
+      SerpApi.all({
         page: props.page,
         limit: props.limit,
         search: props.search,
@@ -31,27 +31,28 @@ export const SerpRank = () => {
 
   const serpTableRows = useMemo(
     () => [
-    { label: 'Domain', id: 'url' },
-    { label: 'Keyword', id: 'keyword' },
-    {
-      label: 'Statut',
-      render: (row: any) => <Status value={row?.taskStatus} />,
-    },
-    {
-      label: 'Action',
-      render: (row: any) =>
-        !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
-          <></>
-        ) : (
-          <Button
-            onClick={() => navigate(`/serp/${row.id}`)}
-            size="xs"
-            color="light">
-            Result
-          </Button>
-        ),
-    },
-   ],[]
+      { label: 'Domain', id: 'url' },
+      { label: 'Keyword', id: 'keyword' },
+      {
+        label: 'Statut',
+        render: (row: any) => <Status value={row?.taskStatus} />,
+      },
+      {
+        label: 'Action',
+        render: (row: any) =>
+          !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
+            <></>
+          ) : (
+            <Button
+              onClick={() => navigate(`/serp/${row.id}`)}
+              size="xs"
+              color="light">
+              Result
+            </Button>
+          ),
+      },
+    ],
+    [],
   );
   return (
     <Layout>
@@ -61,14 +62,14 @@ export const SerpRank = () => {
           <CreateSerp onSubmit={refresh} />
         </Card>
 
-          <div className="my-8">
-            <Datatable
-              cols={serpTableRows}
-              {...props}
-              totalCount={data?.count ?? 0}
-              rows={(data?.values ?? []) as TableRow[]}
-            />
-          </div>
+        <div className="my-8">
+          <Datatable
+            cols={serpTableRows}
+            {...props}
+            totalCount={data?.count ?? 0}
+            rows={(data?.values ?? []) as TableRow[]}
+          />
+        </div>
       </div>
     </Layout>
   );

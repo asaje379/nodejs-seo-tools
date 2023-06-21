@@ -1,4 +1,4 @@
-import { Button, TextInput, Dropdown, Select } from 'flowbite-react';
+import { Button, TextInput, Select } from 'flowbite-react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import internalLinkApi from '../../api/requests/internallink.api';
 
@@ -27,7 +27,7 @@ export const CreateInternalLink = ({ onSubmit }: Props) => {
       onSubmit={handleSubmit}
       className="mt-2 flex gap-3">
       <TextInput
-      className="flex-grow"
+        className="flex-grow"
         value={url}
         onChange={handleChange}
         placeholder="Enter a web page URL"

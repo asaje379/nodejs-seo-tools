@@ -12,14 +12,13 @@ import { CreateInternalLink } from '../components/forms/CreateInternalLink';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 export const InternalLinkExtractor = () => {
   const props = useDatable({});
   const navigate = useNavigate();
 
-  const { data, loading, refresh } = useFetch<ListResponse>(
+  const { data, refresh } = useFetch<ListResponse>(
     () =>
-     internalLinkApi.all({
+      internalLinkApi.all({
         page: props.page,
         limit: props.limit,
         search: props.search,
@@ -32,27 +31,28 @@ export const InternalLinkExtractor = () => {
 
   const internalLinkTableRows = useMemo(
     () => [
-    { label: 'Website URL', id: 'url' },
-    { label: 'Depth', id: 'depth' },
-    {
-      label: 'Statut',
-      render: (row: any) => <Status value={row?.taskStatus} />,
-    },
-    {
-      label: 'Action',
-      render: (row: any) =>
-        !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
-          <></>
-        ) : (
-          <Button
-            onClick={() => navigate(`/internal-link/${row.id}`)}
-            size="xs"
-            color="light">
-            Result
-          </Button>
-        ),
-    },
-   ],[]
+      { label: 'Website URL', id: 'url' },
+      { label: 'Depth', id: 'depth' },
+      {
+        label: 'Statut',
+        render: (row: any) => <Status value={row?.taskStatus} />,
+      },
+      {
+        label: 'Action',
+        render: (row: any) =>
+          !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
+            <></>
+          ) : (
+            <Button
+              onClick={() => navigate(`/internal-link/${row.id}`)}
+              size="xs"
+              color="light">
+              Result
+            </Button>
+          ),
+      },
+    ],
+    [],
   );
 
   return (
@@ -63,14 +63,14 @@ export const InternalLinkExtractor = () => {
           <CreateInternalLink onSubmit={refresh} />
         </Card>
 
-          <div className="my-8">
-            <Datatable
-              cols={internalLinkTableRows}
-              {...props}
-              totalCount={data?.count ?? 0}
-              rows={(data?.values ?? []) as TableRow[]}
-            />
-          </div>
+        <div className="my-8">
+          <Datatable
+            cols={internalLinkTableRows}
+            {...props}
+            totalCount={data?.count ?? 0}
+            rows={(data?.values ?? []) as TableRow[]}
+          />
+        </div>
       </div>
     </Layout>
   );

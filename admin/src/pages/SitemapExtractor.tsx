@@ -12,13 +12,11 @@ import { CreateSitemap } from '../components/forms/CreateSitemap';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 
-
-
 export const SitemapExtractor = () => {
   const props = useDatable({});
   const navigate = useNavigate();
 
-  const { data, loading, refresh } = useFetch<ListResponse>(
+  const { data, refresh } = useFetch<ListResponse>(
     () =>
       sitemapApi.all({
         page: props.page,
@@ -31,30 +29,30 @@ export const SitemapExtractor = () => {
     },
   );
 
-  
- const sitemapTableRows = useMemo(
-  () => [
-  { label: 'Website URL', id: 'url' },
-  {
-    label: 'Statut',
-    render: (row: any) => <Status value={row?.taskStatus} />,
-  },
-  {
-    label: 'Action',
-    render: (row: any) =>
-      !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
-        <></>
-      ) : (
-        <Button
-          onClick={() => navigate(`/site-map/${row.id}`)}
-          size="xs"
-          color="light">
-          Result
-        </Button>
-      ),
-  },
- ],[]
-);
+  const sitemapTableRows = useMemo(
+    () => [
+      { label: 'Website URL', id: 'url' },
+      {
+        label: 'Statut',
+        render: (row: any) => <Status value={row?.taskStatus} />,
+      },
+      {
+        label: 'Action',
+        render: (row: any) =>
+          !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
+            <></>
+          ) : (
+            <Button
+              onClick={() => navigate(`/site-map/${row.id}`)}
+              size="xs"
+              color="light">
+              Result
+            </Button>
+          ),
+      },
+    ],
+    [],
+  );
 
   return (
     <Layout>
@@ -64,14 +62,14 @@ export const SitemapExtractor = () => {
           <CreateSitemap onSubmit={refresh} />
         </Card>
 
-          <div className="my-8">
-            <Datatable
-              cols={sitemapTableRows}
-              {...props}
-              totalCount={data?.count ?? 0}
-              rows={(data?.values ?? []) as TableRow[]}
-            />
-          </div>
+        <div className="my-8">
+          <Datatable
+            cols={sitemapTableRows}
+            {...props}
+            totalCount={data?.count ?? 0}
+            rows={(data?.values ?? []) as TableRow[]}
+          />
+        </div>
       </div>
     </Layout>
   );

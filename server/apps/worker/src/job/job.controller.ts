@@ -50,12 +50,12 @@ export class JobController {
   }
 
   @EventPattern(AppEvent.RUN_INTERNAL_LINKS)
-  async runInternalLink(data: { url: string, maxDepth: number }) {
+  async runInternalLink(data: { url: string; maxDepth: number }) {
     await this.internalLinkQueue.add(AppEvent.RUN_INTERNAL_LINKS, data);
   }
 
   @EventPattern(AppEvent.RUN_SERP)
-  async runSerp(data: { url: string, keyword: string }) {
+  async runSerp(data: { url: string; keyword: string }) {
     await this.serpQueue.add(AppEvent.RUN_SERP, data);
   }
 }

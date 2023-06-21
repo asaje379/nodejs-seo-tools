@@ -76,5 +76,5 @@ export type UrlOptionsMsArgs = {
 
 export type TreeNode = {
   name: string;
-  children: TreeNode[]
+  children: TreeNode[];
 };

@@ -11,7 +11,7 @@ import {
   JobSummarizerProcessor,
   JobSiteMapProcessor,
   JobInternalLinkProcessor,
-  JobSerpProcessor
+  JobSerpProcessor,
 } from './processors';
 import { PrismaModule } from '@app/prisma';
 import { Env, JobQueues, MicroServiceName } from '@app/shared';
@@ -38,6 +38,7 @@ const redisOptions = { host: Env.REDIS_HOST, port: Env.REDIS_PORT };
     }),
     BullModule.registerQueue({
       name: JobQueues.InternalLink,
+      redis: redisOptions,
     }),
     BullModule.registerQueue({
       name: JobQueues.Observatory,
@@ -49,6 +50,7 @@ const redisOptions = { host: Env.REDIS_HOST, port: Env.REDIS_PORT };
     }),
     BullModule.registerQueue({
       name: JobQueues.Serp,
+      redis: redisOptions,
     }),
     ClientsModule.register([
       {
@@ -69,7 +71,7 @@ const redisOptions = { host: Env.REDIS_HOST, port: Env.REDIS_PORT };
     JobKeywordProcessor,
     JobSiteMapProcessor,
     JobInternalLinkProcessor,
-    JobSerpProcessor
+    JobSerpProcessor,
   ],
   exports: [BullModule],
 })
