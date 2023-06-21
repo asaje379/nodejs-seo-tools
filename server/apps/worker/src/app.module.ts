@@ -4,14 +4,12 @@ import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
 import { JobModule } from './job/job.module';
 import { PrismaModule } from '@app/prisma';
+import { Env } from '@app/shared';
 
 @Module({
   imports: [
     BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+      redis: Env.REDIS_OPTIONS,
     }),
     JobModule,
     PrismaModule,
