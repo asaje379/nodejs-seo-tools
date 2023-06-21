@@ -5,6 +5,10 @@ export class Helper {
     });
   }
 
+  static sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   static testUrl =
     'https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/';
   static pageContent = `

@@ -7,66 +7,65 @@ import { useFetch } from '../hooks/useFetch';
 import { ListResponse } from '../api/requests/typings';
 import { Status } from '../components/core/Status';
 import { TableRow } from '../components/core/table/CustomTable';
-import sitemapApi from '../api/requests/sitemap.api';
-import { CreateSitemap } from '../components/forms/CreateSitemap';
-import { useNavigate } from 'react-router-dom';
+import internalLinkApi from '../api/requests/internallink.api';
+import { CreateInternalLink } from '../components/forms/CreateInternalLink';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
-
-export const SitemapExtractor = () => {
+export const InternalLinkExtractor = () => {
   const props = useDatable({});
   const navigate = useNavigate();
 
   const { data, loading, refresh } = useFetch<ListResponse>(
     () =>
-      sitemapApi.all({
+     internalLinkApi.all({
         page: props.page,
         limit: props.limit,
         search: props.search,
       }),
     {
-      event: AppEvent.SITEMAP_STATUS_CHANGED,
+      event: AppEvent.INTERNAL_LINK_STATUS_CHANGED,
       deps: [props.page, props.limit, props.search],
     },
   );
 
-  
- const sitemapTableRows = useMemo(
-  () => [
-  { label: 'Website URL', id: 'url' },
-  {
-    label: 'Statut',
-    render: (row: any) => <Status value={row?.taskStatus} />,
-  },
-  {
-    label: 'Action',
-    render: (row: any) =>
-      !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
-        <></>
-      ) : (
-        <Button
-          onClick={() => navigate(`/site-map/${row.id}`)}
-          size="xs"
-          color="light">
-          Result
-        </Button>
-      ),
-  },
- ],[]
-);
+  const internalLinkTableRows = useMemo(
+    () => [
+    { label: 'Website URL', id: 'url' },
+    { label: 'Depth', id: 'depth' },
+    {
+      label: 'Statut',
+      render: (row: any) => <Status value={row?.taskStatus} />,
+    },
+    {
+      label: 'Action',
+      render: (row: any) =>
+        !row.taskStatus || row.taskStatus === 'IN_PROGRESS' ? (
+          <></>
+        ) : (
+          <Button
+            onClick={() => navigate(`/internal-link/${row.id}`)}
+            size="xs"
+            color="light">
+            Result
+          </Button>
+        ),
+    },
+   ],[]
+  );
 
   return (
     <Layout>
       <div className="mt-6">
         <Card>
           <h5 className="text-xl font-semibold">Start a new analysis</h5>
-          <CreateSitemap onSubmit={refresh} />
+          <CreateInternalLink onSubmit={refresh} />
         </Card>
 
           <div className="my-8">
             <Datatable
-              cols={sitemapTableRows}
+              cols={internalLinkTableRows}
               {...props}
               totalCount={data?.count ?? 0}
               rows={(data?.values ?? []) as TableRow[]}

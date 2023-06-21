@@ -8,6 +8,8 @@ import { KeywordExtractor } from './runners/extractors/keyword.extractor';
 import { Lighthouse } from './runners/lighthouse';
 import { Observatory } from './runners/observatory';
 import { SerpScore } from './runners/serp';
+import { Sitemap } from './runners/sitemap';
+import { InternalLink } from './runners/internal-link';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -67,10 +69,22 @@ export class AppController {
     return result;
   }
 
+  @Get('sitemap')
+  async sitemap() {
+    const result = new Sitemap().generateSiteMap('https://shippool.app/');
+    return result;
+  }
+
+  @Get('internal-link')
+  async internalLink() {
+    const result = new InternalLink().getInternalLink('https://shippool.app/', 3);
+    return result;
+  }
+
   @Get('serp')
   async serp() {
     const result = new SerpScore().run(
-      'https://www.google.com/search?q=google',
+      {url: 'https://www.google.com/search?q=google+hello+kitty&rlz=1C5CHFA_enBJ1025BJ1027&ei=7_p-ZJ_HH56akdUPiKO2cA&start=10&sa=N&ved=2ahUKEwjf-uSDqa7_AhUeTaQEHYiRDQ4Q8tMDegQIBBAE&biw=1393&bih=764&dpr=2&bshm=nce/1', keyword: 'toto'}
     );
     return result;
   }

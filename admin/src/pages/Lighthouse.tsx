@@ -12,6 +12,7 @@ import { TableRow } from '../components/core/table/CustomTable';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 export const Lighthouse = () => {
   const props = useDatable({});
   const navigate = useNavigate();
@@ -59,7 +60,6 @@ export const Lighthouse = () => {
       <div className="mt-6">
         <Card>
           <h5 className="text-xl font-semibold">Start a new analysis</h5>
-
           <CreateLighthouse onSubmit={refresh} />
         </Card>
 

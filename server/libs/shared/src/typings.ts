@@ -5,6 +5,21 @@ export class UrlPayload {
   @ApiProperty() url: string;
 }
 
+export class SiteMapPayload {
+  @ApiProperty() url: string;
+}
+
+export class InternalLinkPayload {
+  @ApiProperty() url: string;
+  @ApiProperty() nbre: number;
+}
+
+export class SerpPayload {
+  @ApiProperty() url: string;
+  @ApiProperty() keyword: string;
+}
+
+// export type LighthouseMsArgs = {
 export class TextAndUrlPayload {
   @ApiPropertyOptional() text?: string;
   @ApiPropertyOptional() url?: string;
@@ -20,6 +35,22 @@ export type UrlMsArgs = {
   id: string;
 };
 
+export type SiteMapMsArgs = {
+  url: string;
+  id: string;
+};
+
+export type InternalLinkMsArgs = {
+  url: string;
+  id: string;
+  nbre: number;
+};
+
+export type SerpMsArgs = {
+  url: string;
+  id: string;
+  keyword: string;
+};
 export type TextAndStopwordsMsArgs = {
   text: string;
   stopwords?: string;
@@ -41,4 +72,9 @@ export type UrlOptionsMsArgs = {
   id: string;
   url: string;
   options: SoupExtractorKind[];
+};
+
+export type TreeNode = {
+  name: string;
+  children: TreeNode[]
 };

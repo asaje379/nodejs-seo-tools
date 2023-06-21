@@ -7,6 +7,10 @@ import { HTMLExtractor } from '../pages/HTMLExtractor';
 import { SitemapExtractor } from '../pages/SitemapExtractor';
 import { SecutityAudit } from '../pages/SecutityAudit';
 import { LighthouseResult } from '../pages/LighthouseResult';
+import { InternalLinkExtractor } from '../pages/InternalLink';
+import { SitemapResult } from '../pages/SitemapExtractorResult';
+import { InternalLinkResult } from '../pages/InternalLinkResult';
+import { SerpResult } from '../pages/SerpResult';
 import { Summarizer } from '../pages/Summarizer';
 import { SummarizerResult } from '../pages/SummarizerResult';
 import { SecurityAuditResult } from '../pages/SecurityAuditResult';
@@ -32,6 +36,27 @@ export const routes: ExtendedRouteObject[] = [
     element: <LighthouseResult />,
     icon: 'insights',
     label: 'Lighthouse Result',
+    exclude: true,
+  },
+  {
+    path: '/site-map/:id',
+    element: <SitemapResult />,
+    icon: 'travel_explore',
+    label: 'Sitemap Result',
+    exclude: true,
+  },
+  {
+    path: '/internal-link/:id',
+    element: <InternalLinkResult />,
+    icon: 'share',
+    label: 'Internal Link Result',
+    exclude: true,
+  },
+  {
+    path: '/serp/:id',
+    element: <SerpResult />,
+    icon: 'star_rate',
+    label: 'Serp Result',
     exclude: true,
   },
   {
@@ -71,6 +96,12 @@ export const routes: ExtendedRouteObject[] = [
     element: <SitemapExtractor />,
     label: 'Sitemap Extractor',
     icon: 'travel_explore',
+  },
+  {
+    path: '/internal-link',
+    element: <InternalLinkExtractor />,
+    label: 'Internal Link',
+    icon: 'share',
   },
   {
     path: '/security-audit',

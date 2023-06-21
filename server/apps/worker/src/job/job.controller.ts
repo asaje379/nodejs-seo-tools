@@ -9,10 +9,13 @@ import { AppEvent, JobQueues, SoupExtractorPayload } from '@app/shared';
 export class JobController {
   constructor(
     @InjectQueue(JobQueues.Extractor) private extractorQueue: Queue,
+    @InjectQueue(JobQueues.Sitemap) private sitemapQueue: Queue,
+    @InjectQueue(JobQueues.InternalLink) private internalLinkQueue: Queue,
     @InjectQueue(JobQueues.Keyword) private keywordQueue: Queue,
     @InjectQueue(JobQueues.Lighthouse) private lighthouseQueue: Queue,
     @InjectQueue(JobQueues.Summarizer) private summarizerQueue: Queue,
     @InjectQueue(JobQueues.Observatory) private observatoryQueue: Queue,
+    @InjectQueue(JobQueues.Serp) private serpQueue: Queue,
   ) {}
 
   @EventPattern(AppEvent.RUN_SOUP_EXTRACTOR)
@@ -43,6 +46,16 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SITEMAP)
   async runSiteMap(data: { url: string }) {
-    await this.extractorQueue.add(AppEvent.RUN_SITEMAP, data);
+    await this.sitemapQueue.add(AppEvent.RUN_SITEMAP, data);
+  }
+
+  @EventPattern(AppEvent.RUN_INTERNAL_LINKS)
+  async runInternalLink(data: { url: string, maxDepth: number }) {
+    await this.internalLinkQueue.add(AppEvent.RUN_INTERNAL_LINKS, data);
+  }
+
+  @EventPattern(AppEvent.RUN_SERP)
+  async runSerp(data: { url: string, keyword: string }) {
+    await this.serpQueue.add(AppEvent.RUN_SERP, data);
   }
 }
