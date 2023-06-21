@@ -1,3 +1,7 @@
+import { config } from 'dotenv';
+
+config();
+
 export enum AppEvent {
   RUN_SOUP_EXTRACTOR = 'RUN_SOUP_EXTRACTOR',
   RUN_SUMMARIZER = 'RUN_SUMMARIZER',
@@ -48,3 +52,15 @@ export type SoupExtractionResult = {
 export interface Extractor<T, Q> {
   extract: (args: T) => Q | Promise<Q>;
 }
+
+export class Env {
+  static REDIS_HOST = process.env.REDIS_HOST;
+  static REDIS_PORT = +process.env.REDIS_PORT;
+
+  static REDIS_OPTIONS = {
+    host: process.env.REDIS_HOST,
+    port: +process.env.REDIS_PORT,
+  };
+}
+
+console.log(Env);

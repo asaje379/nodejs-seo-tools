@@ -13,7 +13,7 @@ export class Lighthouse {
     const options = {
       logLevel: 'info' as Loglevel,
       output: 'json' as OutputMode,
-      onlyCategories: ['performance'],
+      // onlyCategories: ['performance'],
       port: chrome.port,
     };
     const runnerResult = await lighthouse(url, options);

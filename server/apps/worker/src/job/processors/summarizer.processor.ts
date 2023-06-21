@@ -22,6 +22,8 @@ export class JobSummarizerProcessor {
       type: TaskType.SUMMARIZER,
     });
 
+    console.log(task);
+
     const _data = data as TextAndUrlMsArgs;
 
     await this.service.setSummarizerTask(task.id, _data.id);

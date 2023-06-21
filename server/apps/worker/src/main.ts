@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
+import { Env } from '@app/shared';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,10 +21,7 @@ async function bootstrap() {
     AppModule,
     {
       transport: Transport.REDIS,
-      options: {
-        host: 'localhost',
-        port: 6379,
-      },
+      options: Env.REDIS_OPTIONS,
     },
   );
   await msApp.listen();

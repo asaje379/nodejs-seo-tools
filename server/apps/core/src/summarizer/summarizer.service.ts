@@ -18,7 +18,21 @@ export class SummarizerService {
     const summarizer = await this.prisma.summarizer.create({
       data: { url, text },
     });
-    this.client.emit(AppEvent.RUN_SUMMARIZER, { url, text, id: summarizer.id });
+    console.log(summarizer, AppEvent.RUN_SUMMARIZER, {
+      url,
+      text,
+      id: summarizer.id,
+    });
+    try {
+      const result = this.client.emit(AppEvent.RUN_SUMMARIZER, {
+        url,
+        text,
+        id: summarizer.id,
+      });
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findAll(args?: Pagination) {

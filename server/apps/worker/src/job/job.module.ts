@@ -12,36 +12,41 @@ import {
   JobSiteMapProcessor,
 } from './processors';
 import { PrismaModule } from '@app/prisma';
-import { JobQueues, MicroServiceName } from '@app/shared';
+import { Env, JobQueues, MicroServiceName } from '@app/shared';
+
+const redisOptions = { host: Env.REDIS_HOST, port: Env.REDIS_PORT };
 
 @Module({
   imports: [
     BullModule.registerQueue({
       name: JobQueues.Extractor,
+      redis: redisOptions,
     }),
     BullModule.registerQueue({
       name: JobQueues.Lighthouse,
+      redis: redisOptions,
     }),
     BullModule.registerQueue({
       name: JobQueues.Summarizer,
+      redis: redisOptions,
     }),
     BullModule.registerQueue({
       name: JobQueues.Sitemap,
+      redis: redisOptions,
     }),
     BullModule.registerQueue({
       name: JobQueues.Observatory,
+      redis: redisOptions,
     }),
     BullModule.registerQueue({
       name: JobQueues.Keyword,
+      redis: redisOptions,
     }),
     ClientsModule.register([
       {
         name: MicroServiceName.SERVER,
         transport: Transport.REDIS,
-        options: {
-          host: 'localhost',
-          port: 6379,
-        },
+        options: Env.REDIS_OPTIONS,
       },
     ]),
     PrismaModule,

@@ -32,6 +32,7 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SUMMARIZER)
   async runSummarize(data: { text: string }) {
+    console.log('received');
     await this.summarizerQueue.add(AppEvent.RUN_SUMMARIZER, data);
   }
 

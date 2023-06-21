@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build core && nest build worker",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "npm-run-all --parallel start:core start:worker",
+    "start": "ts-node ./prisma/scripts/load.ts && npm-run-all --parallel start:core start:worker",
     "dev:core": "nest start core --watch",
     "dev:worker": "nest start worker --watch",
     "start:core": "nest start core",
