@@ -2,8 +2,8 @@ import { http } from '..';
 import { Pagination } from './typings';
 
 export default {
-  async run(url: string, keyword: string) {
-    await http.post('serp/run', { url, keyword });
+  async run(url: string, keyword: string, maxResult: number) {
+    await http.post('serp/run', { url, keyword, maxResult });
   },
 
   async all(args?: Pagination) {

@@ -35,7 +35,6 @@ export class JobController {
 
   @EventPattern(AppEvent.RUN_SUMMARIZER)
   async runSummarize(data: { text: string }) {
-    console.log('received');
     await this.summarizerQueue.add(AppEvent.RUN_SUMMARIZER, data);
   }
 
@@ -55,7 +54,7 @@ export class JobController {
   }
 
   @EventPattern(AppEvent.RUN_SERP)
-  async runSerp(data: { url: string; keyword: string }) {
+  async runSerp(data: { url: string; keyword: string, maxResult: number, userAgent: string }) {
     await this.serpQueue.add(AppEvent.RUN_SERP, data);
   }
 }

@@ -10,9 +10,6 @@ export class Observatory {
     const textResult = await executeCommand(
       `npx observatory ${Http.getDomain(url)} --format=report`,
     );
-
-    console.log(jsonResult, 'result');
-
     return {
       ...this.getJson(jsonResult as string),
       score: this.getScore(textResult as string),

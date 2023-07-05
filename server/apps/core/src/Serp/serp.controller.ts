@@ -1,5 +1,5 @@
 import { AppEvent, SerpPayload, SiteMapPayload } from '@app/shared';
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { FrontendEvent } from '../events';
 import { SerpService } from './serp.service';
@@ -14,7 +14,9 @@ export class SerpController {
   constructor(private service: SerpService) { }
 
   @Post('run')
-  async run(@Body() data: SerpPayload) {
+  async run(@Body() data: SerpPayload, @Req() request: Request) {
+    const userAgent = request.headers['user-agent'];
+    data['userAgent'] = userAgent;
     return await this.service.run(data);
   }
 

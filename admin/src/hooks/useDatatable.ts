@@ -25,7 +25,6 @@ export function useDatable({
   useEffect(() => {
     if (values) {
       let result: TableRow[] = values;
-      console.log(_page, _limit, _search, values);
       if (_search) {
         result =
           values?.filter((it) =>

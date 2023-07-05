@@ -17,6 +17,8 @@ export class InternalLinkPayload {
 export class SerpPayload {
   @ApiProperty() url: string;
   @ApiProperty() keyword: string;
+  @ApiProperty() maxResult: number;
+  @ApiProperty() userAgent: string;
 }
 
 // export type LighthouseMsArgs = {
@@ -50,6 +52,8 @@ export type SerpMsArgs = {
   url: string;
   id: string;
   keyword: string;
+  maxResult: number;
+  userAgent: string;
 };
 export type TextAndStopwordsMsArgs = {
   text: string;

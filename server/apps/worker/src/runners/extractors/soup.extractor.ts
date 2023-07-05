@@ -70,7 +70,6 @@ export class SoupExtractor
       }
       const pageInfo = await Http.getUrlPageInfo(href);
       const key = String(pageInfo.status);
-      console.log(key);
       if (!(key in result)) {
         result[key] = [
           { key: String(link), href, html: String(link.contents) },

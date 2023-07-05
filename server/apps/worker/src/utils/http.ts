@@ -17,7 +17,6 @@ export class Http {
       const response = await axios(url);
       return { status: response.status, content: response.data };
     } catch (error) {
-      console.log(error);
       return {
         status: error.response?.status ?? HttpStatus.INTERNAL_SERVER_ERROR,
         content: '',

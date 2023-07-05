@@ -41,7 +41,6 @@ export const LighthouseResult = () => {
     );
   }, [data, loading]);
 
-  console.log(informatives);
 
   return (
     <Layout>

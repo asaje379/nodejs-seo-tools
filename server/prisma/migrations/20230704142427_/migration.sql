@@ -108,6 +108,8 @@ CREATE TABLE "Serp" (
     "enabled" BOOLEAN NOT NULL DEFAULT true,
     "url" TEXT NOT NULL,
     "keyword" TEXT NOT NULL,
+    "maxResult" INTEGER NOT NULL,
+    "userAgent" TEXT NOT NULL,
     "taskId" TEXT,
 
     CONSTRAINT "Serp_pkey" PRIMARY KEY ("id")

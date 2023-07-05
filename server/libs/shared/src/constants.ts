@@ -68,4 +68,3 @@ export class Env {
   };
 }
 
-console.log(Env);

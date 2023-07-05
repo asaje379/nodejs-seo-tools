@@ -30,9 +30,6 @@ export const CreateExtractor = ({ onSubmit }: CreateProps) => {
 
     setOptions(options.filter((it) => it !== value));
   };
-
-  console.log(options);
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

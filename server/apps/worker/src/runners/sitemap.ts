@@ -25,7 +25,6 @@ export class Sitemap {
         });
         generator.start();
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     })

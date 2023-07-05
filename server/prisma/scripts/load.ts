@@ -9,7 +9,6 @@ function wait(n: number) {
 async function run() {
   execSync('yarn migrate:gen && yarn migrate:prod');
   await wait(5);
-  console.log('Ready.........');
 }
 
 run();

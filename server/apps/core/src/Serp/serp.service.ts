@@ -14,11 +14,11 @@ export class SerpService {
     @Inject(MicroServiceName.WORKER) private client: ClientProxy,
   ) {}
 
-  async run({ url, keyword }: SerpPayload) {
+  async run({ url, keyword, maxResult, userAgent }: SerpPayload) {
     const serp = await this.prisma.serp.create({
-      data: { url, keyword },
+      data: { url, keyword, maxResult, userAgent },
     });
-    this.client.emit(AppEvent.RUN_SERP, { url, id: serp.id, keyword });
+    this.client.emit(AppEvent.RUN_SERP, { url, id: serp.id, keyword, maxResult, userAgent });
   }
 
   async findAll(args?: Pagination) {

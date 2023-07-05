@@ -22,7 +22,6 @@ export const HTMLExtractorResult = () => {
     [data, loading],
   );
 
-  console.log(value);
 
   return (
     <Layout>
